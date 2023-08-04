@@ -6,4 +6,38 @@
 
 {% block content %}
 <h1>Anime List</h1>
+
+<table class="table table-hover table-dark table-bordered">
+    <thead>
+        <tr>
+            <!-- Your Columns HERE -->
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Options</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <!-- Your rows inside the table HERE: -->
+            <tr>
+                <td><img src="https://cdn.myanimelist.net/images/anime/1295/106551.jpg""></td>
+                <td>Kaguya-sama wa Kokurasetai: Tensai-tachi no Renai Zunousen </td>
+                <td>10/10</td>
+                <td>
+                    <button class="btn btn-outline btn-info">More Info</button>
+                    <button class="btn btn-outline btn-danger">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="https://cdn.myanimelist.net/images/anime/1295/106551.jpg"></td>
+                <td>Kaguya-sama wa Kokurasetai: Tensai-tachi no Renai Zunousen </td>
+                <td>10/10</td>
+                <td>
+                    <button class="btn btn-outline btn-info">More Info</button>
+                    <button class="btn btn-outline btn-danger">Delete</button>
+                </td>
+            </tr>
+    </tbody>
+    </table>
 {% endblock %}

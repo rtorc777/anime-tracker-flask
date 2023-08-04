@@ -1,5 +1,4 @@
 from jikanpy import Jikan
-import json
 
 jikan = Jikan()
 
