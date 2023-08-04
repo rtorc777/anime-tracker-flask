@@ -6,8 +6,14 @@
 
 {% block content %}
 <h1>Anime List</h1>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<link rel='stylesheet' href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-<table class="table table-hover table-dark table-bordered">
+<script src="{{ url_for('static',filename='script.js')}}"></script>
+
+<div class="container">
+<table id="anime_list" class="table table-hover table-dark table-bordered" style="width:100%">
     <thead>
         <tr>
             <!-- Your Columns HERE -->
@@ -21,7 +27,7 @@
     <tbody>
         <!-- Your rows inside the table HERE: -->
             <tr>
-                <td><img src="https://cdn.myanimelist.net/images/anime/1295/106551.jpg""></td>
+                <td><img src="https://cdn.myanimelist.net/images/anime/1295/106551.jpg"></td>
                 <td>Kaguya-sama wa Kokurasetai: Tensai-tachi no Renai Zunousen </td>
                 <td>10/10</td>
                 <td>
@@ -32,7 +38,7 @@
             <tr>
                 <td><img src="https://cdn.myanimelist.net/images/anime/1295/106551.jpg"></td>
                 <td>Kaguya-sama wa Kokurasetai: Tensai-tachi no Renai Zunousen </td>
-                <td>10/10</td>
+                <td>11/10</td>
                 <td>
                     <button class="btn btn-outline btn-info">More Info</button>
                     <button class="btn btn-outline btn-danger">Delete</button>
@@ -40,4 +46,5 @@
             </tr>
     </tbody>
     </table>
+</div>
 {% endblock %}
