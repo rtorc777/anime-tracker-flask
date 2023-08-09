@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from tracker.forms import RegisterForm
 from tracker.models import User
 from tracker import db
@@ -27,6 +27,6 @@ def register():
     
     if form.errors != {}:
         for err_msg in form.errors.values():
-            print(f'There was an error with creating a user: {err_msg}')
+            flash(f'There was an error with creating a user: {err_msg}', category='danger')
             
     return render_template("register.html", form=form)
