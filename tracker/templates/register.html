@@ -28,7 +28,12 @@
             {{ form.confirm_password(class="form-control", placeholder="Confirm password") }}
             <br> <br>
             {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
-            <br> <br> <br> <br>
+            <br> <br> 
+            <div class="checkbox mb-3">
+                <h6>Already have an account?</h6>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('auth.login') }}">Login</a>
+            </div>
+            <br>
         </form>
     </div>
 </body>

@@ -5,5 +5,12 @@
 {% endblock %}
 
 {% block content %}
-<h1>This is the homepage!</h1>
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-dark" style="color:white">
+        <h1 class="display-4 font-weight-normal">Anime/Manga Tracker</h1>
+        <p class="lead font-weight-normal">Track and Create a list of Anime and Manga using the button below</p>
+        <img class="container" src="https://ih1.redbubble.net/image.1837732425.0155/st,small,507x507-pad,600x600,f8f8f8.jpg" style="width: 30%; height: 30%;">
+        <br> <br> <br>
+        <a class="btn btn-primary" href="{{ url_for('views.anime') }}">Get Started</a>
+    <div class="product-device box-shadow d-none d-md-block"></div>
+    <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
 {% endblock %}

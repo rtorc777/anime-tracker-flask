@@ -1,12 +1,23 @@
-from tracker import db
+from tracker import db, login_manager
+from tracker import bcrypt
+from flask_login import UserMixin
 
-class User(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     email = db.Column(db.String(length=50), nullable=False, unique=True)
-    password_hash = db.Column(db.String(length=60), nullable=False)
+    password = db.Column(db.String, nullable=False)
     anime_items = db.relationship('Anime_Item', backref='owned_user', lazy=True)
 
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+    
 class Anime_Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     image = db.Column(db.String(), nullable=False)

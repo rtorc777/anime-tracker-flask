@@ -5,5 +5,32 @@
 {% endblock %}
 
 {% block content %}
-<h1>This is the login page!</h1>
+
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-register" style="color:white">
+            {{ form.hidden_tag() }}
+            <br>
+            <h1>Please Login</h1>
+            <br>
+            <img class="mb-4" src="https://www.geekgirlauthority.com/wp-content/uploads/2020/05/GGA-Kaguya-banner.jpg" height="20%" width="75%">
+            <br>
+            {{ form.username.label() }}
+            {{ form.username(class="form-control", placeholder="Username") }}
+            <br>
+            {{ form.password.label() }}
+            {{ form.password(class="form-control", placeholder="Password") }}
+            <br> <br>
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+            <br> <br>
+            
+            <div class="checkbox mb-3">
+                <h6>Don't have an account?</h6>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('auth.register') }}">Register</a>
+            </div>
+            <br>
+        </form>
+    </div>
+</body>
+
 {% endblock %}
