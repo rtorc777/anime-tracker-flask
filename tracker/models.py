@@ -18,12 +18,17 @@ class User(db.Model, UserMixin):
         self.email = email
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
     
-class Anime_Item(db.Model):
+class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     image = db.Column(db.String(), nullable=False)
     name = db.Column(db.String(length=100), nullable=False, unique=True)
     rating = db.Column(db.Integer(), nullable=False)
     more_info = db.Column(db.String(length=1024))
     finished = db.Column(db.Boolean(), nullable = False)
-    current_episode = db.Column(db.Integer())
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
+
+class Anime_Item(Item):
+    current_episode = db.Column(db.Integer())
+
+class Manga_Item(Item):
+    current_chapter = db.Column(db.Integer())
