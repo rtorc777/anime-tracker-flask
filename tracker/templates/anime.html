@@ -12,41 +12,38 @@
 <script src="{{ url_for('static',filename='script.js')}}"></script>
 
 <div class="container">
-<br>
-<center><h1>Anime List</h1></center>
-<table id="anime_list" class="table table-hover table-secondary table-bordered" style="width:100%; border:1px;">
-    <thead>
-        <tr>
-            <!-- Your Columns HERE -->
-            <th scope="col">Image</th>
-            <th scope="col">Name</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Options</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <!-- Your rows inside the table HERE: -->
+    <br>
+    <center><h1>Anime List</h1></center>
+    <select class="form-select" aria-label="Default select example">
+        <option selected>Currently Watching</option>
+        <option value="1">Plan to Watch</option>
+        <option value="2">Finished</option>
+    </select>
+    <br>
+    <table id="anime_list" class="table table-hover table-secondary table-bordered table-condensed " style="width:100%; border:1px;">
+        <thead>
             <tr>
-                <td><img src="https://cdn.myanimelist.net/images/anime/1295/106551.jpg"></td>
-                <td>Kaguya-sama wa Kokurasetai: Tensai-tachi no Renai Zunousen </td>
-                <td>10/10</td>
+                {% for header in headings %}
+                <th scope="col">{{ header }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td><img src="{{ row[0] }}" height="25%" width="25%"></td>
+                <td> {{ row[1] }}</td>
+                <td> {{ row[2] }}/10</td>
+                <td> {{ row[3] }}</td>
                 <td>
-                    <button class="btn btn-outline btn-info">More Info</button>
+                    <button class="btn btn-outline btn-info">Edit</button>
                     <button class="btn btn-outline btn-danger">Delete</button>
                 </td>
             </tr>
-            <tr>
-                <td><img src="https://cdn.myanimelist.net/images/anime/1295/106551.jpg"></td>
-                <td>Kaguya-sama wa Kokurasetai: Tensai-tachi no Renai Zunousen </td>
-                <td>11/10</td>
-                <td>
-                    <button class="btn btn-outline btn-info">More Info</button>
-                    <button class="btn btn-outline btn-danger">Delete</button>
-                </td>
-            </tr>
-    </tbody>
+            {% endfor %}
+        </tbody>
     </table>
     <br>
 </div>
+
 {% endblock %}
