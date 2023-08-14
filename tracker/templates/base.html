@@ -5,25 +5,32 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
     <title>
       {% block title %}
       {% endblock %}
     </title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="#"><FONT COLOR="#4ADEDE"> <strong> Anime/Manga Tracker </strong> </FONT> </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">
+          <img src="{{ url_for('static',filename='nijika.png')}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+          <font color="white"> Anime/Manga Tracker </font>
+          <img src="{{ url_for('static',filename='nijika.png')}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+        </span>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('views.home') }}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ url_for('views.home') }}">Home</a>
             </li>
             {% if current_user.is_authenticated %}
             <li class="nav-item">
@@ -36,7 +43,7 @@
         </ul>
         
         {% if current_user.is_authenticated %}
-          <ul class="navbar-nav">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
             </li>
@@ -45,7 +52,7 @@
             </li>
           </ul>
         {% else %}
-          <ul class="navbar-nav">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
             </li>
@@ -54,16 +61,15 @@
             </li>
           </ul>
         {% endif %}
+        </div>
       </div>
     </nav>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">
-              <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="alert alert-{{ category }} alert-dismissible fade show">
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               {{ message }}
             </div>
           {% endfor %}
@@ -72,12 +78,17 @@
 
       {% block content %}
       {% endblock %}
-
   </body>
+
   <style>
       body {
         background-color: #212121;
-        color: white
+        color: #DDE6ED;
+      }
+
+      nav {
+        background-color: #333333;
+        color: #DDE6ED;
       }
   </style>
 </html>
