@@ -1,0 +1,34 @@
+{% macro heading_row(headings) %}
+    <thead>
+        <tr>
+            {% for header in headings %}
+            <th scope="col">{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+{% endmacro %}
+
+{% macro data_rows(data) %}
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td><img src="{{ row[0] }}" width="100%"></td>
+            <td> <u>{{ row[1] }}</u></td>
+            <td> {{ row[2] }}/10</td>
+            <td > <i>{{ row[3] }}</i></td>
+            <td>
+                <div class="btn-group">
+                <button class="btn btn-outline btn-info">Edit</button>
+                <button class="btn btn-outline btn-danger">Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+{% endmacro %}
+
+{% macro data_table(headings, data) %}
+    <table id="anime_list" class="table table-hover table-secondary table-bordered align-middle" style="width:100%; border:1px;">
+        {{ heading_row(headings) }}
+        {{ data_rows(data) }}
+    </table>
+{% endmacro %}

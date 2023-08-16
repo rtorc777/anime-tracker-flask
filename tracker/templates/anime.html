@@ -1,4 +1,5 @@
 {% extends "base.html" %} 
+{% from 'macros.html' import data_table %}
 
 {% block title %}
     Anime List
@@ -12,45 +13,22 @@
 <script src="{{ url_for('static',filename='script.js')}}"></script>
 
 <div class="container">
-        <br>
-        <h1 style="text-align:center; text-decoration: underline;">Anime List</h1>
-        <select class="form-select" aria-label="Default select example">
-            <option selected>Currently Watching</option>
-            <option value="1">Plan to Watch</option>
-            <option value="2">Finished</option>
-        </select>
-        <br> <br>
+    <br>
+    <h1 style="text-align:center; text-decoration: underline;">Anime List</h1>
+    
+    <select class="form-select" aria-label="Default select example">
+        <option selected>Currently Watching</option>
+        <option value="1">Plan to Watch</option>
+        <option value="2">Finished</option>
+    </select>
+    <br> <br>
 
     <div class="row">
-        <div class="col-9 d-flex flex-column">
-            <table id="anime_list" class="table table-hover table-secondary table-bordered align-middle" style="width:100%; border:1px;">
-                <thead>
-                    <tr>
-                        {% for header in headings %}
-                        <th scope="col">{{ header }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in data %}
-                    <tr>
-                        <td><img src="{{ row[0] }}" width="100%"></td>
-                        <td> <u>{{ row[1] }}</u></td>
-                        <td> {{ row[2] }}/10</td>
-                        <td > <i>{{ row[3] }}</i></td>
-                        <td>
-                            <button class="btn btn-outline btn-info">Edit</button>
-                            <button class="btn btn-outline btn-danger">Delete</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="col-3 d-flex flex-column align-middle">
-            <h1 style="text-align:center">Statistics</h1>
-        </div>
+        <div class="col-1"></div>
+        <div class="col-10">{{ data_table(headings, data) }}</div>
+        <div class="col-1"></div>
     </div>
+    <br>
 </div>
 
 {% endblock %}
