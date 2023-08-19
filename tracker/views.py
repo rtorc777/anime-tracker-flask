@@ -18,3 +18,8 @@ def anime():
 @login_required
 def manga():
     return render_template("manga.html")
+
+@views.route('/add_item', methods=['GET', 'POST'])
+@login_required
+def add_item():
+    return render_template("add_item.html")

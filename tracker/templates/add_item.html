@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+
+{% block title %}
+    Add Item
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-2">    
+            <select class="form-select h-10 w-10" id="inputGroupSelect01">
+                <option value="1">Anime</option>
+                <option value="2">Manga</option>
+            </select>
+        </div>
+        
+        <div class="col-10">
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
