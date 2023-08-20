@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from flask_login import login_required
 from tracker.jikan import data, headings
 
@@ -22,4 +22,9 @@ def manga():
 @views.route('/add_item', methods=['GET', 'POST'])
 @login_required
 def add_item():
+    if request.method == 'POST': 
+        type = request.form.get('type_name')
+        print(type)
+        name = request.form.get('item_name')
+        print(name)
     return render_template("add_item.html")
