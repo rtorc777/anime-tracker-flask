@@ -1,14 +1,19 @@
 from jikanpy import Jikan
 
-jikan = Jikan()
+def search_jikan(type, name):
+    jikan = Jikan()
 
-search = jikan.search('anime', 'kaguya', parameters={'limit': 10})
+    search = jikan.search(type, name, parameters={'limit': 10})
 
-for i in range(len(search['data'])):
-    results = search['data'][i]["title"]
-    images = search['data'][i]["images"]["jpg"]["image_url"]
+    results = {}
+    for i in range(len(search['data'])):
+        names = search['data'][i]["title"]
+        images = search['data'][i]["images"]["jpg"]["image_url"]
 
-    print(results, images)
+        results[names] = images
+    
+    print(results)
+    return results
 
 headings  = ("Image", "Name", "Rating", "Notes", "Options")
 
