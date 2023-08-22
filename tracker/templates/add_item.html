@@ -8,9 +8,17 @@
 <br>
 <form method="POST" class="form-login">
 <div class="container">
+    <h1>Add an item to the anime or manga list</h1>
+    <ol>
+        <li>Choose which list to add to (anime or manga)</li>
+        <li>Enter name of anime/manga and click search</li>
+        <li>Select item to add to list</li>
+        <li>Fill out required information and submit</li>
+    </ol>
+    <br>
     <div class="row">
         <div class="col-2">    
-            <select class="form-select h-10 w-10" id="type_name" name="type_name">
+            <select class="form-select h-10 w-10" name="type_name">
                 <option value="anime">Anime</option>
                 <option value="manga">Manga</option>
             </select>
@@ -18,20 +26,39 @@
         
         <div class="col-10">
             <div class="input-group">
-                <input type="text" class="form-control" id="item_name" name="item_name">
+                <input type="text" class="form-control" name="item_name">
                 <button class="btn btn-outline-secondary" type="submit">Search</button>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-3">
         {% for result in results %}
-        <div class="col-2">
-            {{ result }} 
-            <img src="{{ results[result] }}">
-        </div>
+            <div class="col-2 mt-4">
+                <div class="card h-100 w-100">
+                    <img src="{{ results[result] }}" class="card-img" style="width:100%;height:15vw;">
+                    <div class="card-body">
+                        <p class="card-text">{{ result }}</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary" >Select</a>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
 
 </div>
 </form>
+
+<style>
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.card {
+  flex: 1 0 auto;
+}
+</style>
 {% endblock %}

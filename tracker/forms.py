@@ -30,3 +30,4 @@ class AddItemForm(FlaskForm):
     type = SelectField(label='Anime List', choices=[('cw', 'Currently Watching'), ('fin', 'Finished'), ('plan', 'Planned')])
     rating = IntegerField(label="Rating")
     notes = StringField(label="Addiitonal Notes")
+    submit = SubmitField(label='Confirm')
