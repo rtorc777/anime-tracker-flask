@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required
+from flask import Blueprint, render_template, request, flash
+from flask_login import login_required, current_user
 from tracker.jikan import data, headings, search_jikan
+from tracker.models import Anime_Item, Manga_Item
+from tracker import db
 
 views = Blueprint('views', __name__)
 
@@ -37,6 +39,31 @@ def add_item():
             list = request.form.get("list")
             rating = request.form.get("rating")
             notes = request.form.get("notes")
-            flash(f'Successfully added {name} to ({type}) {list} list', category='success')
-        
+
+            if type == "Finished":
+                finished = True
+            else:
+                finished = False
+
+            if type == "Anime":
+                in_list = Anime_Item.query.filter_by(name=name, owner=current_user.id).first()
+
+                if in_list:
+                    flash(f'{name} is already in an Anime list', category='danger')
+                else:
+                    new_item = Anime_Item(image=image, name=name, rating=rating, notes=notes, finished=finished, owner=current_user.id  )
+                    db.session.add(new_item)
+                    db.session.commit()
+                    flash(f'Successfully added {name} to ({type}) {list} list', category='success')
+            elif type == "Manga":
+                in_list = Manga_Item.query.filter_by(name=name, owner=current_user.id).first()
+
+                if in_list:
+                    flash(f'{name} is already in a Manga list', category='danger')
+                else:
+                    new_item = Manga_Item(image=image, name=name, rating=rating, notes=notes, finished=finished, owner=current_user.id  )
+                    db.session.add(new_item)
+                    db.session.commit()
+                    flash(f'Successfully added {name} to ({type}) {list} list', category='success')
+
     return render_template("add_item.html", results=results, type=type)
