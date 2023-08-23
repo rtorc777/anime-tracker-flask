@@ -15,7 +15,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
     db.init_app(app)
 
-    from .models import User, Item, Anime_Item, Manga_Item
+    from .models import User, Item
 
     with app.app_context():
         #db.drop_all()

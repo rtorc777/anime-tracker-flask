@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, PasswordField, SubmitField, SelectField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
+from wtforms import StringField, IntegerField, PasswordField, SubmitField, SelectField, TextAreaField
+from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, NumberRange
 from tracker.models import User
 
 class RegisterForm(FlaskForm):
@@ -25,9 +25,3 @@ class LoginForm(FlaskForm):
     username = StringField(label='Username:', validators=[DataRequired()])
     password = PasswordField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Sign in')
-
-class AddItemForm(FlaskForm):
-    type = SelectField(label='Anime List', choices=[('cw', 'Currently Watching'), ('fin', 'Finished'), ('plan', 'Planned')])
-    rating = IntegerField(label="Rating")
-    notes = StringField(label="Addiitonal Notes")
-    submit = SubmitField(label='Confirm')
