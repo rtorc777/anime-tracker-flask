@@ -14,17 +14,26 @@
 
 <div class="container">
     <br>
-    <h1 style="text-align:center; text-decoration: underline;">Anime List</h1>
-    
-    <select class="form-select">
-        <option selected value="1">Currently Watching</option>
-        <option value="2">Finished</option>
-    </select>
+    <h1 style="text-align:center; text-decoration: underline;">{{ list }}</h1>
+    <br>
+    <form method="POST" class="form-list">
+        <div class="row">
+            <div class="input-group">
+                <select class="form-select" name="list" required>
+                    <option value="">Choose List</option>
+                    <option value="Currently Watching">Currently Watching</option>
+                    <option value="Finished">Finished</option>
+                </select>
+                <button class="btn btn-secondary" type="submit" name ="GO" value="GO">Go</button>
+            </div>  
+        </div>
+    </form>
+
     <br> <br>
 
     <div class="row">
         <div class="col-1"></div>
-        <div class="col-10">{{ data_table(headings, data) }}</div>
+        <div class="col-10">{{ data_table(headings, anime_data) }}</div>
         <div class="col-1"></div>
     </div>
     <br>

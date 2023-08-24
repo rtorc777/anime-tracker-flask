@@ -13,10 +13,10 @@
     <tbody>
         {% for row in data %}
         <tr>
-            <td><img src="{{ row[0] }}" width="100%"></td>
-            <td> <u>{{ row[1] }}</u></td>
-            <td> {{ row[2] }}/10</td>
-            <td > <i>{{ row[3] }}</i></td>
+            <td><img src="{{ row.image }}" width="112px" height="175px"></td>
+            <td style="text-decoration: underline;">{{ row.name }}</td>
+            <td style="text-align: center; font-weight: bold;" >{{ row.rating }}</td>
+            <td style="font-style: italic;">{{ row.notes }}</td>
             <td>
                 <div class="btn-group">
                 <button class="btn btn-outline btn-info">Edit</button>

@@ -18,7 +18,8 @@
         <br>
         <div class="row">
             <div class="col-2">    
-                <select class="form-select h-10 w-10" name="type_name">
+                <select class="form-select" name="type_name" required>
+                    <option value="">Choose Type</option>
                     <option value="anime">Anime</option>
                     <option value="manga">Manga</option>
                 </select>
@@ -27,7 +28,7 @@
             <div class="col-10">
                 <div class="input-group">
                     <input type="text" class="form-control" name="item_name" required>
-                    <button class="btn btn-outline-secondary" type="submit" name ="SEARCH" value="SEARCH">Search</button>
+                    <button class="btn btn-secondary" type="submit" name ="SEARCH" value="SEARCH">Search</button>
                 </div>
             </div>
         </div>

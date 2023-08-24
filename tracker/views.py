@@ -1,25 +1,44 @@
 from flask import Blueprint, render_template, request, flash
 from flask_login import login_required, current_user
-from tracker.jikan import data, headings, search_jikan
+from tracker.jikan import search_jikan
 from tracker.models import Anime_Item, Manga_Item
 from tracker import db
 
 views = Blueprint('views', __name__)
+headings  = ("Image", "Name", "Rating (?/10)", "Notes", "Options")
 
 @views.route('/')
 @views.route('/home')
 def home():
     return render_template("home.html")
 
-@views.route('/anime')
+@views.route('/anime', methods=['GET', 'POST'])
 @login_required
 def anime():
-    return render_template("anime.html", data=data, headings=headings)
+    anime_data = {}
+    list = "Anime List"
+    if request.method == 'POST':
+        if request.form.get('list') == "Finished":
+            list = "Anime (Finished) List:"
+            anime_data = Anime_Item.query.filter_by(owner=current_user.id, finished = True).all()
+        else:
+            list = "Anime (Currently Watching) List:"
+            anime_data = Anime_Item.query.filter_by(owner=current_user.id, finished = False).all()
+    return render_template("anime.html", anime_data=anime_data, headings=headings, list=list)
 
-@views.route('/manga')
+@views.route('/manga', methods=['GET', 'POST'])
 @login_required
 def manga():
-    return render_template("manga.html")
+    manga_data = {}
+    list = "Manga List"
+    if request.method == 'POST':
+        if request.form.get('list') == "Finished":
+            list = "Manga (Finished) List:"
+            manga_data = Manga_Item.query.filter_by(owner=current_user.id, finished = True).all()
+        else:
+            list = "Manga (Currently Watching) List:"
+            manga_data = Manga_Item.query.filter_by(owner=current_user.id, finished = False).all()
+    return render_template("manga.html", manga_data=manga_data, headings=headings, list=list)
 
 @views.route('/add_item', methods=['GET', 'POST'])
 @login_required
@@ -40,7 +59,7 @@ def add_item():
             rating = request.form.get("rating")
             notes = request.form.get("notes")
 
-            if type == "Finished":
+            if list == "Finished":
                 finished = True
             else:
                 finished = False
