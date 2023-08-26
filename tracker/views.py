@@ -97,7 +97,6 @@ def add_item():
 def update():
     if request.method == 'POST':
         type = request.form.get('type')
-        print(type)
         list = request.form.get('list')
 
         if list == "Finished":
@@ -124,4 +123,26 @@ def update():
 
             db.session.commit()
             flash(f'Successfully updated {manga_item.name}', category='success')
+            return redirect(url_for('views.manga'))
+
+@views.route('/delete', methods=['GET', 'POST'])
+def delete():
+    if request.method == 'POST':
+        type = request.form.get('type')
+
+        if type == "Anime":
+            anime_item = Anime_Item.query.get(request.form.get('id'))
+            name = anime_item.name
+
+            db.session.delete(anime_item)
+            db.session.commit()
+            flash(f'Successfully deleted {name}', category='success')
+            return redirect(url_for('views.anime'))
+        else:
+            manga_item = Manga_Item.query.get(request.form.get('id'))
+            name = manga_item.name
+
+            db.session,delete(manga_item)
+            db.session.commit()
+            flash(f'Successfully deleted {name}', category='success')
             return redirect(url_for('views.manga'))

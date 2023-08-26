@@ -18,7 +18,7 @@
             <td style="text-align: center; font-weight: bold;" >{{ row.rating }}</td>
             <td style="font-style: italic;">{{ row.notes }}</td>
             <td style="text-align: center;">
-                <button class="btn btn-outline btn-info" data-bs-toggle="modal" data-bs-target="#itemEdit{{ row.id }}" >Edit</button>
+                <button class="btn btn-outline btn-info" data-bs-toggle="modal" data-bs-target="#itemEdit{{ row.id }}">Edit</button>
                 <form action="{{ url_for('views.update') }}" method="POST" class="form-update">
                 <div class="modal fade" tabindex="-1" id="itemEdit{{ row.id }}">
                     <div class="modal-dialog">
@@ -64,15 +64,44 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                <button class="btn btn-primary" type="submit" name ="SUBMIT" value="SUBMIT">Update</button>
+                                <button class="btn btn-primary" type="submit" name ="UPDATE" value="UPDATE">Update</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
                 </form> 
 
-                <button class="btn btn-outline btn-danger">Delete</button>
+                <button class="btn btn-outline btn-danger" data-bs-toggle="modal" data-bs-target="#itemDelete{{ row.id }}">Delete</button>
+                <form action="{{ url_for('views.delete') }}" method="POST" class="form-delete">
+                    <div class="modal fade" tabindex="-1" id="itemDelete{{ row.id }}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="itemEditModalLabel">{{ row.name }}</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="id" value="{{ row.id }}">
+                                    <input type="hidden" name="type" value="{{ type }}">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <img src="{{ row.image }}" class="card-img">
+                                        </div>
+                                        <div class="col-6">
+                                            <h2>Are you sure you want to delete this item from the list?</h2>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button class="btn btn-danger" type="submit" name ="DELETE" value="DELETE">Delete</button>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </td>
         </tr>
         {% endfor %}
