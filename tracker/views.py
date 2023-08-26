@@ -15,36 +15,86 @@ def home():
 @views.route('/anime', methods=['GET', 'POST'])
 @login_required
 def anime():
-    anime_data = {}
-    visible = False
-    list = "Anime List"
-    type = "Anime"
     if request.method == 'POST':
         if request.form.get('list') == "Finished":
-            list = "Anime (Finished) List:"
-            anime_data = Anime_Item.query.filter_by(owner=current_user.id, finished = True).all()
+            return redirect(url_for('views.anime_finished'))
         else:
-            list = "Anime (Currently Watching) List:"
-            anime_data = Anime_Item.query.filter_by(owner=current_user.id, finished = False).all()
-        visible = True
-    return render_template("anime.html", anime_data=anime_data, headings=headings, list=list, visible=visible, type=type)
+            return redirect(url_for('views.anime_currently_watching'))
+    return render_template("anime.html")
+
+@views.route('/anime/currently_watching', methods=['GET', 'POST'])
+@login_required
+def anime_currently_watching():
+    anime_data = {}
+    type = "Anime"
+    list = "(Currently Watching)"
+    anime_data = Anime_Item.query.filter_by(owner=current_user.id, finished = False).all()
+
+    if request.method == 'POST':
+        if request.form.get('list') == "Finished":
+            return redirect(url_for('views.anime_finished'))
+        else:
+            return redirect(url_for('views.anime_currently_watching'))
+        
+    return render_template("anime.html", anime_data=anime_data, headings=headings, list=list, visible=True, type=type)
+
+@views.route('/anime/finished', methods=['GET', 'POST'])
+@login_required
+def anime_finished():
+    anime_data = {}
+    type = "Anime"
+    list = "(Finished)"
+    anime_data = Anime_Item.query.filter_by(owner=current_user.id, finished = True).all()
+
+    if request.method == 'POST':
+        if request.form.get('list') == "Finished":
+            return redirect(url_for('views.anime_finished'))
+        else:
+            return redirect(url_for('views.anime_currently_watching'))
+
+    return render_template("anime.html", anime_data=anime_data, headings=headings, list=list, visible=True, type=type)
 
 @views.route('/manga', methods=['GET', 'POST'])
 @login_required
 def manga():
-    manga_data = {}
-    visible = False
-    list = "Manga List"
-    type = "Manga"
     if request.method == 'POST':
         if request.form.get('list') == "Finished":
-            list = "Manga (Finished) List:"
-            manga_data = Manga_Item.query.filter_by(owner=current_user.id, finished = True).all()
+            return redirect(url_for('views.manga_finished'))
         else:
-            list = "Manga (Currently Watching) List:"
-            manga_data = Manga_Item.query.filter_by(owner=current_user.id, finished = False).all()
-        visible = True
-    return render_template("manga.html", manga_data=manga_data, headings=headings, list=list, visible=visible, type=type)
+            return redirect(url_for('views.manga_currently_watching'))
+    return render_template("manga.html")
+
+@views.route('/manga/currently_watching', methods=['GET', 'POST'])
+@login_required
+def manga_currently_watching():
+    manga_data = {}
+    type = "Manga"
+    list = "(Currently Watching)"
+    manga_data = Manga_Item.query.filter_by(owner=current_user.id, finished = False).all()
+
+    if request.method == 'POST':
+        if request.form.get('list') == "Finished":
+            return redirect(url_for('views.manga_finished'))
+        else:
+            return redirect(url_for('views.manga_currently_watching'))
+        
+    return render_template("manga.html", manga_data=manga_data, headings=headings, list=list, visible=True, type=type)
+
+@views.route('/manga/finished', methods=['GET', 'POST'])
+@login_required
+def manga_finished():
+    anime_data = {}
+    type = "Manga"
+    list = "(Finished)"
+    manga_data = Manga_Item.query.filter_by(owner=current_user.id, finished = True).all()
+
+    if request.method == 'POST':
+        if request.form.get('list') == "Finished":
+            return redirect(url_for('views.manga_finished'))
+        else:
+            return redirect(url_for('views.manga_currently_watching'))
+
+    return render_template("manga.html", manga_data=manga_data, headings=headings, list=list, visible=True, type=type)
 
 @views.route('/add_item', methods=['GET', 'POST'])
 @login_required
@@ -113,7 +163,11 @@ def update():
 
             db.session.commit()
             flash(f'Successfully updated {anime_item.name}', category='success')
-            return redirect(url_for('views.anime'))
+
+            if finished:
+                return redirect(url_for('views.anime_finished'))
+            else:
+                return redirect(url_for('views.anime_currently_watching'))
         else:
             manga_item = Manga_Item.query.get(request.form.get('id'))
 
@@ -123,7 +177,11 @@ def update():
 
             db.session.commit()
             flash(f'Successfully updated {manga_item.name}', category='success')
-            return redirect(url_for('views.manga'))
+
+            if finished:
+                return redirect(url_for('views.manga_finished'))
+            else:
+                return redirect(url_for('views.manga_currently_watching'))
 
 @views.route('/delete', methods=['GET', 'POST'])
 def delete():
@@ -133,16 +191,26 @@ def delete():
         if type == "Anime":
             anime_item = Anime_Item.query.get(request.form.get('id'))
             name = anime_item.name
+            finished = anime_item.finished
 
             db.session.delete(anime_item)
             db.session.commit()
             flash(f'Successfully deleted {name}', category='success')
-            return redirect(url_for('views.anime'))
+
+            if finished:
+                return redirect(url_for('views.anime_finished'))
+            else:
+                return redirect(url_for('views.anime_currently_watching'))
         else:
             manga_item = Manga_Item.query.get(request.form.get('id'))
             name = manga_item.name
+            finished = manga_item.finished
 
-            db.session,delete(manga_item)
+            db.session.delete(manga_item)
             db.session.commit()
             flash(f'Successfully deleted {name}', category='success')
-            return redirect(url_for('views.manga'))
+
+            if finished:
+                return redirect(url_for('views.manga_finished'))
+            else:
+                return redirect(url_for('views.manga_currently_watching'))
