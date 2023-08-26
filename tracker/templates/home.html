@@ -10,7 +10,7 @@
     <br>
     <h1 class="text-center">Welcome {{ current_user.username }}!</h1>
     <div class="container text-center">
-        <img class="center" src="https://ih1.redbubble.net/image.1837732425.0155/st,small,507x507-pad,600x600,f8f8f8.jpg" style="width: 10%; height: 10%;text-align: center;">
+        <img class="center" src="https://64.media.tumblr.com/a3b6597c5e85e9016e77e8e282ac95bd/9e785dff5a7f2d43-52/s1280x1920/abce408a35467b467d2be40de1cbdf274c3ef53f.png" style="width: 15%; height: 15%;text-align: center;">
         <div class="row">
             <div class="col-1"></div>
             <div class="col-5">
@@ -18,8 +18,12 @@
                 <h4>Total Anime Watched: {{ stats['anime_total_count'] }} </h4>
                 <h6>Currently Watching Anime: {{ stats['anime_watching_count'] }} </h6>
                 <h6>Finished Anime: {{ stats['anime_finished_count'] }} </h6>
-
+                <br>
                 <canvas id="animeRatings"></canvas>
+                <br>
+                <h4>Average Anime Rating: {{ avg_anime_rating }} </h4>
+                <br>
+                <a class="btn btn-secondary" href="{{ url_for('views.anime') }}">Anime List</a>
                 
             </div>
             <div class="col-5">
@@ -27,8 +31,12 @@
                 <h4>Total Manga Read: {{ stats['manga_total_count'] }} </h4>
                 <h6>Currently Reading Manga: {{ stats['manga_watching_count'] }} </h6>
                 <h6>Finished Manga: {{ stats['manga_finished_count'] }} </h6>
-
+                <br>
                 <canvas id="mangaRatings"></canvas>
+                <br>
+                <h4>Average Manga Rating: {{ avg_manga_rating }} </h4>
+                <br>
+                <a class="btn btn-secondary" href="{{ url_for('views.manga') }}">Manga List</a>
             </div>
         </div>
     </div>
@@ -38,29 +46,41 @@
         <p class="lead font-weight-normal">Create and track a list of Anime and Manga using the button below</p>
         <img class="container" src="https://ih1.redbubble.net/image.1837732425.0155/st,small,507x507-pad,600x600,f8f8f8.jpg" style="width: 30%; height: 30%;">
         <br> <br> <br>
-        <a class="btn btn-primary" href="{{ url_for('views.anime') }}">Get Started</a>
+        <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Get Started</a>
     </div>
     {% endif %}
     
     <script>
         const animeRatings = document.getElementById('animeRatings');
-          new Chart(animeRatings, {
+          const animeChart = new Chart(animeRatings, {
             type: 'bar',
             data: {
               labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
               datasets: [{
-                label: '# of Anime',
+                backgroundColor:"rgba(56, 136, 255, 0.5)",
+                borderColor:"rgba(56, 136, 255, 1)",
+                label: ' # of Anime',
                 data: {{ anime_ratings }},
                 borderWidth: 1
               }]
             },
             options: {
-                indexAxis: 'y',
+              indexAxis: 'y',
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  title: {
+                    display:true,
+                    text: 'Rating',
+                  }
                 }
-              }
+              },
+              plugins: {
+                tooltip:{
+                  displayColors: false,
+                  titleFont: 'bold'
+                }
+              } 
             }
           });
     </script>
@@ -72,20 +92,32 @@
             data: {
             labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             datasets: [{
-                label: '# of Anime',
+                backgroundColor:"rgba(209, 17, 17, 0.5)",
+                borderColor:"rgba(209, 17, 17, 1)",
+                label: ' # of Manga',
                 data: {{ manga_ratings }},
                 borderWidth: 1
             }]
             },
             options: {
-                indexAxis: 'y',
-            scales: {
+              indexAxis: 'y',
+              scales: {
                 y: {
-                beginAtZero: true
+                  beginAtZero: true,
+                  title: {
+                    display:true,
+                    text: 'Rating',
+                  }
                 }
+              },
+              plugins: {
+                tooltip:{
+                  displayColors: false,
+                  titleFont: 'bold'
+                }
+              } 
             }
-            }
-        });
+          });
     </script>
 
 {% endblock %}

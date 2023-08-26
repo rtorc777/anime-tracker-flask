@@ -19,7 +19,7 @@ def register():
 
         login_user(user)
         flash(f'Account created successfully! You are now logged in as {user.username}', category='success')
-        return redirect(url_for('views.anime'))
+        return redirect(url_for('views.home'))
     
     if form.errors != {}:
         for err_msg in form.errors.values():
@@ -38,7 +38,7 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash(f'Succesfully logged in as: {user.username}', category='success')
-                return redirect(url_for('views.anime'))
+                return redirect(url_for('views.home'))
             else:
                 flash('Incorrect password, Please try again!', category='danger')
         else:

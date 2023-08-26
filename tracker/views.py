@@ -11,23 +11,45 @@ headings  = ("Image", "Name", "Rating (?/10)", "Notes", "Options")
 @views.route('/home')
 def home():
     stats = {}
-    stats["anime_total_count"] = Anime_Item.query.filter_by(owner=current_user.id).count()
-    stats["anime_finished_count"] = Anime_Item.query.filter_by(owner=current_user.id, finished = True).count()
-    stats["anime_watching_count"] = Anime_Item.query.filter_by(owner=current_user.id, finished = False).count()
-    stats["manga_total_count"] = Manga_Item.query.filter_by(owner=current_user.id).count()
-    stats["manga_finished_count"] = Manga_Item.query.filter_by(owner=current_user.id, finished = True).count()
-    stats["manga_watching_count"] = Manga_Item.query.filter_by(owner=current_user.id, finished = False).count()
-
     anime_ratings = []
-    for i in range(1, 11):
-        anime_ratings.append(Anime_Item.query.filter_by(owner=current_user.id, rating=i).count())
-    
     manga_ratings = []
-    for i in range(1, 11):
-        manga_ratings.append(Manga_Item.query.filter_by(owner=current_user.id, rating=i).count())
+    avg_anime_rating = 0
+    avg_manga_rating = 0
 
-    #Add average score and buttons
-    return render_template("home.html", stats=stats, anime_ratings=anime_ratings, manga_ratings=manga_ratings)
+    if current_user.is_authenticated:
+        stats["anime_total_count"] = Anime_Item.query.filter_by(owner=current_user.id).count()
+        stats["anime_finished_count"] = Anime_Item.query.filter_by(owner=current_user.id, finished = True).count()
+        stats["anime_watching_count"] = Anime_Item.query.filter_by(owner=current_user.id, finished = False).count()
+        stats["manga_total_count"] = Manga_Item.query.filter_by(owner=current_user.id).count()
+        stats["manga_finished_count"] = Manga_Item.query.filter_by(owner=current_user.id, finished = True).count()
+        stats["manga_watching_count"] = Manga_Item.query.filter_by(owner=current_user.id, finished = False).count()
+
+
+        for i in range(1, 11):
+            anime_ratings.append(Anime_Item.query.filter_by(owner=current_user.id, rating=i).count())
+        
+        count = 1
+        total_anime_rating = 0
+        for rating in anime_ratings:
+            total_anime_rating += count * rating
+            count += 1
+
+        if stats['anime_total_count'] != 0:
+            avg_anime_rating = round(total_anime_rating / stats['anime_total_count'],2)
+            
+        for i in range(1, 11):
+            manga_ratings.append(Manga_Item.query.filter_by(owner=current_user.id, rating=i).count())
+        
+        count = 1
+        total_manga_rating = 0
+        for rating in manga_ratings:
+            total_manga_rating += count * rating
+            count += 1
+
+        if stats['manga_total_count'] != 0:
+            avg_manga_rating = round(total_manga_rating / stats['manga_total_count'],2)
+
+    return render_template("home.html", stats=stats, anime_ratings=anime_ratings, manga_ratings=manga_ratings, avg_manga_rating=avg_manga_rating, avg_anime_rating=avg_anime_rating)
 
 @views.route('/anime', methods=['GET', 'POST'])
 @login_required
