@@ -5,11 +5,87 @@
 {% endblock %}
 
 {% block content %}
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center" style="color:#DDE6ED">
-    <h1 class="display-4 font-weight-normal">Anime/Manga Tracker</h1>
-    <p class="lead font-weight-normal">Create and track a list of Anime and Manga using the button below</p>
-    <img class="container" src="https://ih1.redbubble.net/image.1837732425.0155/st,small,507x507-pad,600x600,f8f8f8.jpg" style="width: 30%; height: 30%;">
-    <br> <br> <br>
-    <a class="btn btn-primary" href="{{ url_for('views.anime') }}">Get Started</a>
-</div>
+    {% if current_user.is_authenticated %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <br>
+    <h1 class="text-center">Welcome {{ current_user.username }}!</h1>
+    <div class="container text-center">
+        <img class="center" src="https://ih1.redbubble.net/image.1837732425.0155/st,small,507x507-pad,600x600,f8f8f8.jpg" style="width: 10%; height: 10%;text-align: center;">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-5">
+                <h2 style="text-decoration: underline;">Anime Stats</h2>
+                <h4>Total Anime Watched: {{ stats['anime_total_count'] }} </h4>
+                <h6>Currently Watching Anime: {{ stats['anime_watching_count'] }} </h6>
+                <h6>Finished Anime: {{ stats['anime_finished_count'] }} </h6>
+
+                <canvas id="animeRatings"></canvas>
+                
+            </div>
+            <div class="col-5">
+                <h2 style="text-decoration: underline;">Manga Stats</h2>
+                <h4>Total Manga Read: {{ stats['manga_total_count'] }} </h4>
+                <h6>Currently Reading Manga: {{ stats['manga_watching_count'] }} </h6>
+                <h6>Finished Manga: {{ stats['manga_finished_count'] }} </h6>
+
+                <canvas id="mangaRatings"></canvas>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center" style="color:#DDE6ED">
+        <h1 class="display-4 font-weight-normal">Anime/Manga Tracker</h1>
+        <p class="lead font-weight-normal">Create and track a list of Anime and Manga using the button below</p>
+        <img class="container" src="https://ih1.redbubble.net/image.1837732425.0155/st,small,507x507-pad,600x600,f8f8f8.jpg" style="width: 30%; height: 30%;">
+        <br> <br> <br>
+        <a class="btn btn-primary" href="{{ url_for('views.anime') }}">Get Started</a>
+    </div>
+    {% endif %}
+    
+    <script>
+        const animeRatings = document.getElementById('animeRatings');
+          new Chart(animeRatings, {
+            type: 'bar',
+            data: {
+              labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+              datasets: [{
+                label: '# of Anime',
+                data: {{ anime_ratings }},
+                borderWidth: 1
+              }]
+            },
+            options: {
+                indexAxis: 'y',
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+    </script>
+
+    <script>
+        const mangaRating = document.getElementById('mangaRatings');
+        new Chart(mangaRating, {
+            type: 'bar',
+            data: {
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            datasets: [{
+                label: '# of Anime',
+                data: {{ manga_ratings }},
+                borderWidth: 1
+            }]
+            },
+            options: {
+                indexAxis: 'y',
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            }
+            }
+        });
+    </script>
+
 {% endblock %}
