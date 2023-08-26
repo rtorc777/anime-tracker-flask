@@ -18,7 +18,6 @@ def create_app():
     from .models import User, Item, Anime_Item, Manga_Item
 
     with app.app_context():
-        #db.drop_all()
         db.create_all()
 
     from .views import views

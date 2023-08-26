@@ -1,44 +1,14 @@
-{% extends "base.html" %} 
+{% extends "anime.html" %} 
 {% from 'macros.html' import data_table %}
 
 {% block title %}
     Manga List
 {% endblock %}
 
-{% block content %}
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<link rel='stylesheet' href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-
-<script src="{{ url_for('static',filename='script.js')}}"></script>
-
-<div class="container">
-    <br>
-    <h1 style="text-align:center; text-decoration: underline;">Manga {{ list }} List</h1>
-    <br>
-    <form method="POST" class="form-list">
-        <div class="row">
-            <div class="input-group">
-                <select class="form-select" name="list" required>
-                    <option value="" selected disabled hidden>Choose List</option>
-                    <option value="Currently Watching">Currently Watching</option>
-                    <option value="Finished">Finished</option>
-                </select>
-                <button class="btn btn-secondary" type="submit" name ="GO" value="GO">Go</button>
-            </div>  
-        </div>
-    </form>
-
-    <br> <br>
-
-    {% if visible %}
-    <div class="row">
-        <div class="col-1"></div>
-        <div class="col-10">{{ data_table(headings, manga_data) }}</div>
-        <div class="col-1"></div>
-    </div>
-    {% endif %}
-    <br>
-</div>
-
+{% block label %}
+    Manga {{ list }} List
 {% endblock %}
+
+{% block table %}
+    {{ data_table(headings, manga_data, type) }}
+{% endblock %} 

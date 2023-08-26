@@ -1,6 +1,10 @@
 {% macro heading_row(headings) %}
     <thead>
         <tr>
+            {% if request.path == "/anime" or request.path == "/manga" %}
+            <th scope="col">List</th>
+            {% endif %}
+
             {% for header in headings %}
             <th scope="col">{{ header }}</th>
             {% endfor %}
@@ -8,11 +12,17 @@
     </thead>
 {% endmacro %}
 
-
 {% macro data_rows(data, type) %}
     <tbody>
         {% for row in data %}
         <tr>
+            {% if request.path == "/anime" or request.path == "/manga" %}
+                {% if row.finished %}
+                    <td>Finished</td>
+                {% else %}
+                    <td>Currently Watching</td>
+                {% endif %}
+            {% endif %}
             <td><img src="{{ row.image }}" width="112px" height="175px"></td>
             <td style="text-decoration: underline;">{{ row.name }}</td>
             <td style="text-align: center; font-weight: bold;" >{{ row.rating }}</td>
@@ -107,7 +117,6 @@
         {% endfor %}
     </tbody>
 {% endmacro %}
-
 
 {% macro data_table(headings, data, type) %}
     <table id="animanga_list" class="table table-hover table-secondary table-bordered align-middle" style="width:100%; border:1px;">

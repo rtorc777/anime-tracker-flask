@@ -15,26 +15,26 @@
             <div class="col-1"></div>
             <div class="col-5">
                 <h2 style="text-decoration: underline;">Anime Stats</h2>
-                <h4>Total Anime Watched: {{ stats['anime_total_count'] }} </h4>
-                <h6>Currently Watching Anime: {{ stats['anime_watching_count'] }} </h6>
-                <h6>Finished Anime: {{ stats['anime_finished_count'] }} </h6>
+                <h4>Total Anime Watched: <span style="color:#ffdd80"> {{ stats['anime_total_count'] }}</span></h4>
+                <h6>Currently Watching Anime: <span style="color:#ffdd80">{{ stats['anime_watching_count'] }}</span></h6>
+                <h6>Finished Anime: <span style="color:#ffdd80">{{ stats['anime_finished_count'] }}</span></h6>
                 <br>
                 <canvas id="animeRatings"></canvas>
                 <br>
-                <h4>Average Anime Rating: {{ avg_anime_rating }} </h4>
+                <h4>Average Anime Rating: <span style="color:#ffdd80">{{ avg_anime_rating }}</span></h4>
                 <br>
                 <a class="btn btn-secondary" href="{{ url_for('views.anime') }}">Anime List</a>
                 
             </div>
             <div class="col-5">
                 <h2 style="text-decoration: underline;">Manga Stats</h2>
-                <h4>Total Manga Read: {{ stats['manga_total_count'] }} </h4>
-                <h6>Currently Reading Manga: {{ stats['manga_watching_count'] }} </h6>
-                <h6>Finished Manga: {{ stats['manga_finished_count'] }} </h6>
+                <h4>Total Manga Read: <span style="color:#ffdd80">{{ stats['manga_total_count'] }}</span></h4>
+                <h6>Currently Reading Manga: <span style="color:#ffdd80">{{ stats['manga_watching_count'] }}</span></h6>
+                <h6>Finished Manga: <span style="color:#ffdd80">{{ stats['manga_finished_count'] }}</span></h6>
                 <br>
                 <canvas id="mangaRatings"></canvas>
                 <br>
-                <h4>Average Manga Rating: {{ avg_manga_rating }} </h4>
+                <h4>Average Manga Rating: <span style="color:#ffdd80">{{ avg_manga_rating }}</span></h4>
                 <br>
                 <a class="btn btn-secondary" href="{{ url_for('views.manga') }}">Manga List</a>
             </div>

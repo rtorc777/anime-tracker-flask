@@ -14,30 +14,39 @@
 
 <div class="container">
     <br>
-    <h1 style="text-align:center; text-decoration: underline;">Anime {{ list }} List</h1>
+    <h1 style="text-align:center; text-decoration: underline;">
+        {% block label %}
+            Anime {{ list }} List
+        {% endblock %}
+    </h1>
     <br>
     <form method="POST" class="form-list">
         <div class="row">
             <div class="input-group">
-                <select class="form-select" name="list" required>
-                    <option value="" selected disabled hidden>Choose List</option>
+                <select class="form-select" name="list">
+                    {% if request.path == "/anime/currently_watching" or request.path == "/manga/currently_watching" %}
+                    <option value="All">All</option>
+                    <option value="Currently Watching" selected>Currently Watching</option>
+                    <option value="Finished">Finished</option>
+                    {% elif request.path == "/anime/finished" or request.path == "/manga/finished" %}
+                    <option value="All">All</option>
+                    <option value="Currently Watching">Currently Watching</option>
+                    <option value="Finished"selected>Finished</option>
+                    {% else %}
+                    <option value="All" selected>All</option>
                     <option value="Currently Watching">Currently Watching</option>
                     <option value="Finished">Finished</option>
+                    {% endif %}
                 </select>
                 <button class="btn btn-secondary" type="submit" name ="GO" value="GO">Go</button>
             </div>  
         </div>
     </form>
 
-    <br> <br>
-
-    {% if visible %}
-    <div class="row">
-        <div class="col-1"></div>
-        <div class="col-10">{{ data_table(headings, anime_data, type) }}</div>
-        <div class="col-1"></div>
-    </div>
-    {% endif %}
+    <br>
+    {% block table %}
+        {{ data_table(headings, anime_data, type) }}
+    {% endblock %} 
     <br>
 </div>
 
