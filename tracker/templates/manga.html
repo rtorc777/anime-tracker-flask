@@ -19,7 +19,7 @@
         <div class="row">
             <div class="input-group">
                 <select class="form-select" name="list" required>
-                    <option value="">Choose List</option>
+                    <option value="" selected disabled hidden>Choose List</option>
                     <option value="Currently Watching">Currently Watching</option>
                     <option value="Finished">Finished</option>
                 </select>
@@ -30,11 +30,13 @@
 
     <br> <br>
 
+    {% if visible %}
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10">{{ data_table(headings, manga_data) }}</div>
         <div class="col-1"></div>
     </div>
+    {% endif %}
     <br>
 </div>
 

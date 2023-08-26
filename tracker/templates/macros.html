@@ -9,7 +9,7 @@
 {% endmacro %}
 
 
-{% macro data_rows(data) %}
+{% macro data_rows(data, type) %}
     <tbody>
         {% for row in data %}
         <tr>
@@ -17,9 +17,61 @@
             <td style="text-decoration: underline;">{{ row.name }}</td>
             <td style="text-align: center; font-weight: bold;" >{{ row.rating }}</td>
             <td style="font-style: italic;">{{ row.notes }}</td>
-            <td>
-                <div class="btn-group">
-                <button class="btn btn-outline btn-info">Edit</button>
+            <td style="text-align: center;">
+                <button class="btn btn-outline btn-info" data-bs-toggle="modal" data-bs-target="#itemEdit{{ row.id }}" >Edit</button>
+                <form action="{{ url_for('views.update') }}" method="POST" class="form-update">
+                <div class="modal fade" tabindex="-1" id="itemEdit{{ row.id }}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="itemEditModalLabel">{{ row.name }}</h1>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img src="{{ row.image }}" class="card-img">
+                                    </div>
+                                    
+                                    <input type="hidden" name="id" value="{{ row.id }}">
+                                    <input type="hidden" name="type" value="{{ type }}">
+
+                                    <div class="col-6">
+                                        <h5>Choose List</h5>
+                                        <select class="form-select" name="list">
+                                            {% if row.finished %}
+                                            <option value="Currently Watching">Currently Watching</option>
+                                            <option selected value="Finished">Finished</option>
+                                            {% else %}
+                                            <option selected value="Currently Watching">Currently Watching</option>
+                                            <option value="Finished">Finished</option>
+                                            {%endif %}
+                                        </select>
+
+                                        <br>
+
+                                        <h5>Rating</h5>
+                                        <div class="input-group mb-3">
+                                            <input min="1" max="10" step="1" type="number" class="form-control" required name="rating" value="{{ row.rating }}">
+                                            <span class="input-group-text">/10</span>
+                                        </div>
+
+                                        <h5>Additional Notes</h5>
+                                        <div class="input-group">
+                                            <textarea class="form-control" name="notes">{{ row.notes }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                <button class="btn btn-primary" type="submit" name ="SUBMIT" value="SUBMIT">Update</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                </form> 
+
                 <button class="btn btn-outline btn-danger">Delete</button>
             </td>
         </tr>
@@ -28,9 +80,9 @@
 {% endmacro %}
 
 
-{% macro data_table(headings, data) %}
-    <table id="anime_list" class="table table-hover table-secondary table-bordered align-middle" style="width:100%; border:1px;">
+{% macro data_table(headings, data, type) %}
+    <table id="animanga_list" class="table table-hover table-secondary table-bordered align-middle" style="width:100%; border:1px;">
         {{ heading_row(headings) }}
-        {{ data_rows(data) }}
+        {{ data_rows(data, type) }}
     </table>
 {% endmacro %}

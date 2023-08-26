@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from tracker.jikan import search_jikan
 from tracker.models import Anime_Item, Manga_Item
@@ -16,7 +16,9 @@ def home():
 @login_required
 def anime():
     anime_data = {}
+    visible = False
     list = "Anime List"
+    type = "Anime"
     if request.method == 'POST':
         if request.form.get('list') == "Finished":
             list = "Anime (Finished) List:"
@@ -24,13 +26,16 @@ def anime():
         else:
             list = "Anime (Currently Watching) List:"
             anime_data = Anime_Item.query.filter_by(owner=current_user.id, finished = False).all()
-    return render_template("anime.html", anime_data=anime_data, headings=headings, list=list)
+        visible = True
+    return render_template("anime.html", anime_data=anime_data, headings=headings, list=list, visible=visible, type=type)
 
 @views.route('/manga', methods=['GET', 'POST'])
 @login_required
 def manga():
     manga_data = {}
+    visible = False
     list = "Manga List"
+    type = "Manga"
     if request.method == 'POST':
         if request.form.get('list') == "Finished":
             list = "Manga (Finished) List:"
@@ -38,7 +43,8 @@ def manga():
         else:
             list = "Manga (Currently Watching) List:"
             manga_data = Manga_Item.query.filter_by(owner=current_user.id, finished = False).all()
-    return render_template("manga.html", manga_data=manga_data, headings=headings, list=list)
+        visible = True
+    return render_template("manga.html", manga_data=manga_data, headings=headings, list=list, visible=visible, type=type)
 
 @views.route('/add_item', methods=['GET', 'POST'])
 @login_required
@@ -55,9 +61,9 @@ def add_item():
             type = request.form.get('type').capitalize()
             name = request.form.get('name')
             image = request.form.get('image')
-            list = request.form.get("list")
-            rating = request.form.get("rating")
-            notes = request.form.get("notes")
+            list = request.form.get('list')
+            rating = request.form.get('rating')
+            notes = request.form.get('notes')
 
             if list == "Finished":
                 finished = True
@@ -86,3 +92,36 @@ def add_item():
                     flash(f'Successfully added {name} to ({type}) {list} list', category='success')
 
     return render_template("add_item.html", results=results, type=type)
+
+@views.route('/update', methods=['GET', 'POST'])
+def update():
+    if request.method == 'POST':
+        type = request.form.get('type')
+        print(type)
+        list = request.form.get('list')
+
+        if list == "Finished":
+            finished = True
+        else:
+            finished = False
+
+        if type == "Anime":
+            anime_item = Anime_Item.query.get(request.form.get('id'))
+
+            anime_item.finished = finished
+            anime_item.rating = request.form.get('rating')
+            anime_item.notes = request.form.get('notes')
+
+            db.session.commit()
+            flash(f'Successfully updated {anime_item.name}', category='success')
+            return redirect(url_for('views.anime'))
+        else:
+            manga_item = Manga_Item.query.get(request.form.get('id'))
+
+            manga_item.finished = finished
+            manga_item.rating = request.form.get('rating')
+            manga_item.notes = request.form.get('notes')
+
+            db.session.commit()
+            flash(f'Successfully updated {manga_item.name}', category='success')
+            return redirect(url_for('views.manga'))
