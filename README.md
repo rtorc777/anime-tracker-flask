@@ -1,6 +1,7 @@
 # Anime and Manga Tracker
 A website for tracking anime that you watched using the Flask framework
 
+![homepage](https://github.com/rtorc777/anime-tracker-flask/assets/133179555/4cfac79b-ba57-4d98-a147-ce43066b0b3d)
 
 ## Setup & Installation
 
