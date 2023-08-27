@@ -6,19 +6,19 @@ A website for tracking anime that you watched using the Flask framework
 
 Note: Please make sure you have the latest version of Python installed.
 
-Clone the repo:
+1) Clone the repo:
 ```bash
 git clone <repo-url>
 ```
 
-Install the requirements:
+2) Install the requirements:
 ```bash
 pip install -r requirements.txt
 ```
 
 ## Running The Website
 
-Run the main.py file
+3) Run the main.py file
 ```bash
 python main.py
 ```
