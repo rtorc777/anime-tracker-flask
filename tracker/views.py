@@ -5,7 +5,6 @@ from tracker.models import Anime_Item, Manga_Item
 from tracker import db
 
 views = Blueprint('views', __name__)
-headings  = ("Image", "Name", "Rating (?/10)", "Notes", "Options")
 
 @views.route('/')
 @views.route('/home')
@@ -63,7 +62,7 @@ def anime():
             return redirect(url_for('views.anime_currently_watching'))
         else:
             return redirect(url_for('views.anime'))
-    return render_template("anime.html", anime_data=anime_data, headings=headings, type=type)
+    return render_template("anime.html", anime_data=anime_data,type=type)
 
 @views.route('/anime/currently_watching', methods=['GET', 'POST'])
 @login_required
@@ -79,7 +78,7 @@ def anime_currently_watching():
             return redirect(url_for('views.anime_currently_watching'))
         else:
             return redirect(url_for('views.anime'))
-    return render_template("anime.html", anime_data=anime_data, headings=headings, list=list, type=type)
+    return render_template("anime.html", anime_data=anime_data, list=list, type=type)
 
 @views.route('/anime/finished', methods=['GET', 'POST'])
 @login_required
@@ -96,7 +95,7 @@ def anime_finished():
         else:
             return redirect(url_for('views.anime'))
 
-    return render_template("anime.html", anime_data=anime_data, headings=headings, list=list, type=type)
+    return render_template("anime.html", anime_data=anime_data, list=list, type=type)
 
 @views.route('/manga', methods=['GET', 'POST'])
 @login_required
@@ -110,7 +109,7 @@ def manga():
             return redirect(url_for('views.manga_currently_watching'))
         else:
             return redirect(url_for('views.manga'))
-    return render_template("manga.html", manga_data=manga_data,headings=headings,type=type)
+    return render_template("manga.html", manga_data=manga_data, type=type)
 
 @views.route('/manga/currently_watching', methods=['GET', 'POST'])
 @login_required
@@ -127,7 +126,7 @@ def manga_currently_watching():
         else:
             return redirect(url_for('views.manga'))
         
-    return render_template("manga.html", manga_data=manga_data, headings=headings, list=list, type=type)
+    return render_template("manga.html", manga_data=manga_data, list=list, type=type)
 
 @views.route('/manga/finished', methods=['GET', 'POST'])
 @login_required
@@ -144,7 +143,7 @@ def manga_finished():
         else:
             return redirect(url_for('views.manga'))
 
-    return render_template("manga.html", manga_data=manga_data, headings=headings, list=list, type=type)
+    return render_template("manga.html", manga_data=manga_data, list=list, type=type)
 
 @views.route('/add_item', methods=['GET', 'POST'])
 @login_required

@@ -1,13 +1,16 @@
-{% macro heading_row(headings) %}
+{% macro heading_row() %}
     <thead>
         <tr>
             {% if request.path == "/anime" or request.path == "/manga" %}
-            <th scope="col">List</th>
+            <th scope="col" style="width: 5%;">List</th>
             {% endif %}
 
-            {% for header in headings %}
-            <th scope="col">{{ header }}</th>
-            {% endfor %}
+            <th scope="col" style="width: 5%;">Image</th>
+            <th scope="col" style="width: 30%;">Name</th>
+            <th scope="col" style="width: 5%;">Rating</th>
+            <th scope="col" style="width: 30%;">Notes</th>
+            <th scope="col" style="width: 5%;">Options</th>
+
         </tr>
     </thead>
 {% endmacro %}
@@ -18,15 +21,15 @@
         <tr>
             {% if request.path == "/anime" or request.path == "/manga" %}
                 {% if row.finished %}
-                    <td>Finished</td>
+                    <td style="text-align: center;">Finished</td>
                 {% else %}
-                    <td>Currently Watching</td>
+                    <td style="text-align: center;">Currently Watching</td>
                 {% endif %}
             {% endif %}
-            <td><img src="{{ row.image }}" width="112px" height="175px"></td>
+            <td style="text-align: center;"><img src="{{ row.image }}" width="112px" height="175px"></td>
             <td style="text-decoration: underline;">{{ row.name }}</td>
             <td style="text-align: center; font-weight: bold;" >{{ row.rating }}</td>
-            <td style="font-style: italic;">{{ row.notes }}</td>
+            <td style="font-style: italic; word-wrap: break-word; max-width: 300px;">{{ row.notes }}</td>
             <td style="text-align: center;">
                 <button class="btn btn-outline btn-info" data-bs-toggle="modal" data-bs-target="#itemEdit{{ row.id }}">Edit</button>
                 <form action="{{ url_for('views.update') }}" method="POST" class="form-update">
@@ -118,9 +121,9 @@
     </tbody>
 {% endmacro %}
 
-{% macro data_table(headings, data, type) %}
-    <table id="animanga_list" class="table table-hover table-secondary table-bordered align-middle" style="width:100%; border:1px;">
-        {{ heading_row(headings) }}
+{% macro data_table(data, type) %}
+    <table id="animanga_list" class="table table-hover table-secondary table-bordered align-middle" style="border:1px; table-layout: auto;">
+        {{ heading_row() }}
         {{ data_rows(data, type) }}
     </table>
 {% endmacro %}
