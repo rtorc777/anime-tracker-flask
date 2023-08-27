@@ -70,7 +70,7 @@
 
                                         <h5>Additional Notes</h5>
                                         <div class="input-group">
-                                            <textarea class="form-control" name="notes">{{ row.notes }}</textarea>
+                                            <textarea class="form-control" name="notes" maxlength="512">{{ row.notes }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -92,19 +92,15 @@
                                 <div class="modal-header">
                                     <h1 class="modal-title fs-5" id="itemEditModalLabel">{{ row.name }}</h1>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body" style="text-align: center;">
                                     <input type="hidden" name="id" value="{{ row.id }}">
                                     <input type="hidden" name="type" value="{{ type }}">
 
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <img src="{{ row.image }}" class="card-img">
-                                        </div>
-                                        <div class="col-6">
-                                            <h2>Are you sure you want to delete this item from the list?</h2>
-                                        </div>
-                                    </div>
-    
+                                    <img src="{{ row.image }}" class="card-img" style="width: 50%; text-align: center;">
+                                    <br>
+                                    <br>     
+                                    <h4>Are you sure you want to delete this item from the {{ type }} list?</h4>
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

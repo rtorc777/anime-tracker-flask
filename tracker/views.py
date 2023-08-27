@@ -173,22 +173,27 @@ def add_item():
                 in_list = Anime_Item.query.filter_by(name=name, owner=current_user.id).first()
 
                 if in_list:
-                    flash(f'{name} is already in an Anime list', category='danger')
+                    flash(f'{name} is already in Anime list', category='danger')
                 else:
                     new_item = Anime_Item(image=image, name=name, rating=rating, notes=notes, finished=finished, owner=current_user.id  )
                     db.session.add(new_item)
                     db.session.commit()
                     flash(f'Successfully added {name} to ({type}) {list} list', category='success')
+
+                return redirect(url_for('views.anime'))
+            
             elif type == "Manga":
                 in_list = Manga_Item.query.filter_by(name=name, owner=current_user.id).first()
 
                 if in_list:
-                    flash(f'{name} is already in a Manga list', category='danger')
+                    flash(f'{name} is already in Manga list', category='danger')
                 else:
                     new_item = Manga_Item(image=image, name=name, rating=rating, notes=notes, finished=finished, owner=current_user.id  )
                     db.session.add(new_item)
                     db.session.commit()
                     flash(f'Successfully added {name} to ({type}) {list} list', category='success')
+
+                return redirect(url_for('views.manga'))
 
     return render_template("add_item.html", results=results, type=type)
 
@@ -240,26 +245,18 @@ def delete():
         if type == "Anime":
             anime_item = Anime_Item.query.get(request.form.get('id'))
             name = anime_item.name
-            finished = anime_item.finished
 
             db.session.delete(anime_item)
             db.session.commit()
             flash(f'Successfully deleted {name}', category='success')
 
-            if finished:
-                return redirect(url_for('views.anime_finished'))
-            else:
-                return redirect(url_for('views.anime_currently_watching'))
+            return redirect(url_for('views.anime'))
         else:
             manga_item = Manga_Item.query.get(request.form.get('id'))
             name = manga_item.name
-            finished = manga_item.finished
 
             db.session.delete(manga_item)
             db.session.commit()
             flash(f'Successfully deleted {name}', category='success')
 
-            if finished:
-                return redirect(url_for('views.manga_finished'))
-            else:
-                return redirect(url_for('views.manga_currently_watching'))
+            return redirect(url_for('views.manga'))
