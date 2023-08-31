@@ -18,6 +18,7 @@ git clone <repo-url>
 pip install -r requirements.txt
 ```
 
+3) Add URI for your database
 
 3) Run the main.py file
 ```bash
