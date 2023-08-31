@@ -12,14 +12,17 @@ Note: Please make sure you have the latest version of Python installed.
 git clone <repo-url>
 ```
 
-
 2) Install the requirements:
 ```bash
 pip install -r requirements.txt
 ```
 
+3) Create .env file and add URI for database
+```bash
+URI = <database URI>
+```
 
-3) Run the main.py file
+4) Run the main.py file
 ```bash
 python main.py
 ```
