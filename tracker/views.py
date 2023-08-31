@@ -9,24 +9,65 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @views.route('/home')
 def home():
-    stats = {}
-    anime_ratings = []
-    manga_ratings = []
+    stats = {
+        "anime_total_count" : 0,
+        "anime_finished_count" : 0,
+        "anime_watching_count" : 0,
+        "manga_total_count" : 0,
+        "manga_finished_count" : 0,
+        "manga_watching_count" : 0
+    }
+    anime_ratings_dict = {1:0,
+                     2:0,
+                     3:0,
+                     4:0,
+                     5:0,
+                     6:0,
+                     7:0,
+                     8:0,
+                     9:0,
+                     10:0}
+    
+    manga_ratings_dict = {1:0,
+                     2:0,
+                     3:0,
+                     4:0,
+                     5:0,
+                     6:0,
+                     7:0,
+                     8:0,
+                     9:0,
+                     10:0}
+    
     avg_anime_rating = 0
     avg_manga_rating = 0
 
     if current_user.is_authenticated:
-        stats["anime_total_count"] = Anime_Item.query.filter_by(owner=current_user.id).count()
-        stats["anime_finished_count"] = Anime_Item.query.filter_by(owner=current_user.id, finished = True).count()
-        stats["anime_watching_count"] = Anime_Item.query.filter_by(owner=current_user.id, finished = False).count()
-        stats["manga_total_count"] = Manga_Item.query.filter_by(owner=current_user.id).count()
-        stats["manga_finished_count"] = Manga_Item.query.filter_by(owner=current_user.id, finished = True).count()
-        stats["manga_watching_count"] = Manga_Item.query.filter_by(owner=current_user.id, finished = False).count()
+        animes = (Anime_Item.query.filter_by(owner=current_user.id)).all()
+        for anime in animes:
+            stats["anime_total_count"] += 1
 
+            if anime.finished == True:
+                stats["anime_finished_count"] += 1
+            else:
+                stats["anime_watching_count"] += 1
 
-        for i in range(1, 11):
-            anime_ratings.append(Anime_Item.query.filter_by(owner=current_user.id, rating=i).count())
-        
+            anime_ratings_dict[anime.rating] += 1 
+
+        mangas = (Manga_Item.query.filter_by(owner=current_user.id)).all()
+        for manga in mangas:            
+            stats["manga_total_count"] += 1
+
+            if manga.finished == True:
+                stats["manga_finished_count"] += 1
+            else:
+                stats["manga_watching_count"] += 1
+
+            manga_ratings_dict[manga.rating] += 1 
+
+        anime_ratings = list(anime_ratings_dict.values())
+        manga_ratings = list(manga_ratings_dict.values())
+
         count = 1
         total_anime_rating = 0
         for rating in anime_ratings:
@@ -36,9 +77,6 @@ def home():
         if stats['anime_total_count'] != 0:
             avg_anime_rating = round(total_anime_rating / stats['anime_total_count'],2)
             
-        for i in range(1, 11):
-            manga_ratings.append(Manga_Item.query.filter_by(owner=current_user.id, rating=i).count())
-        
         count = 1
         total_manga_rating = 0
         for rating in manga_ratings:
