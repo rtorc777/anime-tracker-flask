@@ -10,7 +10,11 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <link rel='stylesheet' href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-<script src="{{ url_for('static',filename='script.js')}}"></script>
+<script>
+    $(document).ready(function () {
+    $('#animanga_list').DataTable();
+})
+</script>
 
 <div class="container">
     <br>
