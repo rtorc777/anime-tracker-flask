@@ -26,11 +26,11 @@ class Item(db.Model):
     name = db.Column(db.String(length=100), nullable=False)
     rating = db.Column(db.Integer(), nullable=False)
     notes = db.Column(db.String(length=1024))
-    finished = db.Column(db.Boolean(), nullable = False)
+    list = db.Column(db.String(), nullable = False)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
 class Anime_Item(Item):
-    __tablename__ = 'Anime'
+    __tablename__ = 'Anime List'
 
 class Manga_Item(Item):
-    __tablename__ = 'Manga'
+    __tablename__ = 'Manga List'

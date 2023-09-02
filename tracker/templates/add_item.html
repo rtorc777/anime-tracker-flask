@@ -19,15 +19,23 @@
         <div class="row">
             <div class="col-2">    
                 <select class="form-select" name="type_name" required>
+                    {% if type == "anime" %}
+                    <option value="anime"selected>Anime</option>
+                    <option value="manga">Manga</option>
+                    {% elif type == "manga" %}
+                    <option value="anime">Anime</option>
+                    <option value="manga"selected>Manga</option>
+                    {% else %}
                     <option value="" selected disabled hidden>Choose Type</option>
                     <option value="anime">Anime</option>
                     <option value="manga">Manga</option>
+                    {% endif %}
                 </select>
             </div>
             
             <div class="col-10">
                 <div class="input-group">
-                    <input type="text" class="form-control" name="item_name" required>
+                    <input type="text" class="form-control" name="item_name" value="{{search}}" required></input>
                     <button class="btn btn-secondary" type="submit" name ="SEARCH" value="SEARCH">Search</button>
                 </div>
             </div>
@@ -87,9 +95,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                            <button class="btn btn-primary" type="submit" name ="SUBMIT" value="SUBMIT">Submit</button>
+                                        <div class="modal-footer justify-content-between">
+                                            <button class="btn btn-secondary" type="submit" name ="PLAN" value="PLAN" formnovalidate>Add to Planned</button>
+                                            <div>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                <button class="btn btn-primary"  type="submit" name ="SUBMIT" value="SUBMIT">Submit</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

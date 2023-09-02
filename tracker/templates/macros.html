@@ -20,15 +20,21 @@
         {% for row in data %}
         <tr>
             {% if request.path == "/anime" or request.path == "/manga" %}
-                {% if row.finished %}
-                    <td style="text-align: center;">Finished</td>
+                {% if row.list == "Finished" %}
+                    <td style="text-align: center;"> <p style="color:#1b944b; font-weight: bold;">Finished</p></td>
+                {% elif row.list == "Currently Watching" %}
+                    <td style="text-align: center;"> <p style="color:#ad9f05; font-weight: bold;">Currently Watching</p></td>
                 {% else %}
-                    <td style="text-align: center;">Currently Watching</td>
+                    <td style="text-align: center;"> <p style="color:#ad1c05; font-weight: bold;">Planned</p></td>
                 {% endif %}
             {% endif %}
             <td style="text-align: center;"><img src="{{ row.image }}" width="112px" height="175px"></td>
             <td style="text-decoration: underline;">{{ row.name }}</td>
-            <td style="text-align: center; font-weight: bold;" >{{ row.rating }}</td>
+            {% if row.list == "Planned" %}
+            <td style="text-align: center; font-weight: bold;">N/A</td>
+            {% else %}
+            <td style="text-align: center; font-weight: bold;">{{ row.rating }}</td>
+            {% endif %}
             <td style="font-style: italic; word-wrap: break-word; max-width: 300px;">{{ row.notes }}</td>
             <td style="text-align: center;">
                 <button class="btn btn-outline btn-info" data-bs-toggle="modal" data-bs-target="#itemEdit{{ row.id }}">Edit</button>
@@ -51,11 +57,15 @@
                                     <div class="col-6">
                                         <h5>Choose List</h5>
                                         <select class="form-select" name="list">
-                                            {% if row.finished %}
+                                            {% if row.list == "Finished" %}
                                             <option value="Currently Watching">Currently Watching</option>
                                             <option selected value="Finished">Finished</option>
-                                            {% else %}
+                                            {% elif row.list == "Currently Watching" %}
                                             <option selected value="Currently Watching">Currently Watching</option>
+                                            <option value="Finished">Finished</option>
+                                            {% else %}
+                                            <option selected value="Planned">Planned</option>
+                                            <option value="Currently Watching">Currently Watching</option>
                                             <option value="Finished">Finished</option>
                                             {%endif %}
                                         </select>
