@@ -5,12 +5,29 @@
 {% endblock %}
 
 {% block content %}
-    {% if current_user.is_authenticated %}
+<br>
+  <div class="container text-center">
+    <form method="POST" class="form-list">
+      <div class="row">
+          <div class="input-group ml-auto mr-auto">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search for user" name="SEARCH">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </div>  
+      </div>
+    </form>
+  </div>
+    {% if current_user.is_authenticated or visit %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <br>
+    {% if visit %}
+    <h1 class="text-center">{{ user }}'s Profile</h1>
+    {% else %}
     <h1 class="text-center">Welcome {{ current_user.username }}!</h1>
+    {% endif %}
     <div class="container text-center">
+        {% if not visit %}
         <img class="center" src="https://64.media.tumblr.com/a3b6597c5e85e9016e77e8e282ac95bd/9e785dff5a7f2d43-52/s1280x1920/abce408a35467b467d2be40de1cbdf274c3ef53f.png" style="width: 15%; height: 15%;text-align: center;">
+        {% endif %}
         <div class="row">
             <div class="col-1"></div>
             <div class="col-5">
@@ -23,8 +40,10 @@
                 <br>
                 <h4>Average Anime Rating: <span style="color:#ffdd80">{{ avg_anime_rating }}</span></h4>
                 <br>
+                {% if not visit %}
                 <a class="btn btn-secondary" href="{{ url_for('views.anime') }}">Anime List</a>
-                
+                {% endif %}
+
             </div>
             <div class="col-5">
                 <h2 style="text-decoration: underline;">Manga Stats</h2>
@@ -36,7 +55,9 @@
                 <br>
                 <h4>Average Manga Rating: <span style="color:#ffdd80">{{ avg_manga_rating }}</span></h4>
                 <br>
+                {% if not visit %}
                 <a class="btn btn-secondary" href="{{ url_for('views.manga') }}">Manga List</a>
+                {% endif %}
             </div>
         </div>
     </div>

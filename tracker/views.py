@@ -1,14 +1,18 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, json
 from flask_login import login_required, current_user
 from tracker.jikan import search_jikan
-from tracker.models import Anime_Item, Manga_Item
+from tracker.models import Anime_Item, Manga_Item, User
 from tracker import db
 
 views = Blueprint('views', __name__)
 
-@views.route('/')
-@views.route('/home')
+@views.route('/', methods=['GET', 'POST'])
+@views.route('/home', methods=['GET', 'POST'])
 def home():
+    if request.method == 'POST':
+        username = request.form.get('SEARCH')
+        return redirect(url_for('views.user_home', user_id=username))
+    
     stats = {
         "anime_total_count" : 0,
         "anime_finished_count" : 0,
@@ -88,7 +92,7 @@ def home():
         if stats['manga_total_count'] != 0:
             avg_manga_rating = round(total_manga_rating / stats['manga_total_count'],2)
 
-    return render_template("home.html", stats=stats, anime_ratings=anime_ratings, manga_ratings=manga_ratings, avg_manga_rating=avg_manga_rating, avg_anime_rating=avg_anime_rating)
+    return render_template("home.html", stats=stats, anime_ratings=anime_ratings, manga_ratings=manga_ratings, avg_manga_rating=avg_manga_rating, avg_anime_rating=avg_anime_rating,  visit=False)
 
 @views.route('/anime', methods=['GET', 'POST'])
 @login_required
@@ -386,3 +390,95 @@ def delete():
             flash(f'Successfully deleted {name}', category='success')
 
             return redirect(url_for('views.manga'))
+
+@views.route('/user/<user_id>', methods=['GET', 'POST'])
+def user_home(user_id):
+    if request.method == 'POST':
+        username = request.form.get('SEARCH')
+        return redirect(url_for('views.user_home', user_id=username))
+    
+    stats = {
+        "anime_total_count" : 0,
+        "anime_finished_count" : 0,
+        "anime_watching_count" : 0,
+        "manga_total_count" : 0,
+        "manga_finished_count" : 0,
+        "manga_watching_count" : 0
+    }
+    anime_ratings_dict = {1:0,
+                     2:0,
+                     3:0,
+                     4:0,
+                     5:0,
+                     6:0,
+                     7:0,
+                     8:0,
+                     9:0,
+                     10:0}
+    
+    manga_ratings_dict = {1:0,
+                     2:0,
+                     3:0,
+                     4:0,
+                     5:0,
+                     6:0,
+                     7:0,
+                     8:0,
+                     9:0,
+                     10:0}
+    
+    avg_anime_rating = 0
+    avg_manga_rating = 0
+    anime_ratings = []
+    manga_ratings = []
+
+    exists = User.query.filter_by(username=user_id).first()
+
+    if exists:
+        animes = (Anime_Item.query.filter_by(owner=exists.id)).all()
+        for anime in animes:
+            if anime.rating != -1:
+                stats["anime_total_count"] += 1
+                anime_ratings_dict[anime.rating] += 1 
+
+            if anime.list == "Finished":
+                stats["anime_finished_count"] += 1
+            elif anime.list == "Currently Watching":
+                stats["anime_watching_count"] += 1
+
+        mangas = (Manga_Item.query.filter_by(owner=exists.id)).all()
+        for manga in mangas:
+            if manga.rating != -1:            
+                stats["manga_total_count"] += 1
+                manga_ratings_dict[manga.rating] += 1 
+
+            if manga.list == "Finished":
+                stats["manga_finished_count"] += 1
+            elif manga.list == "Currently Watching":
+                stats["manga_watching_count"] += 1
+
+        anime_ratings = list(anime_ratings_dict.values())
+        manga_ratings = list(manga_ratings_dict.values())
+
+        count = 1
+        total_anime_rating = 0
+        for rating in anime_ratings:
+            total_anime_rating += count * rating
+            count += 1
+
+        if stats['anime_total_count'] != 0:
+            avg_anime_rating = round(total_anime_rating / stats['anime_total_count'],2)
+            
+        count = 1
+        total_manga_rating = 0
+        for rating in manga_ratings:
+            total_manga_rating += count * rating
+            count += 1
+
+        if stats['manga_total_count'] != 0:
+            avg_manga_rating = round(total_manga_rating / stats['manga_total_count'],2)
+    else:
+        flash('Username does not exist!', category='danger')
+        return redirect(url_for('views.home'))
+
+    return render_template("home.html", stats=stats, anime_ratings=anime_ratings, manga_ratings=manga_ratings, avg_manga_rating=avg_manga_rating, avg_anime_rating=avg_anime_rating, user=user_id, visit=True)
