@@ -10,8 +10,6 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <link rel='stylesheet' href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-<script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
-
 <div class="container">
     <br>
     <h1 style="text-align:center; text-decoration: underline;">
@@ -23,28 +21,12 @@
     <form method="POST" class="form-list">
         <div class="row">
             <div class="input-group">
-                <select class="form-select" name="list">
-                    {% if request.path == "/anime/currently_watching" or request.path == "/manga/currently_watching" %}
-                    <option value="All">All</option>
-                    <option value="Currently Watching" selected>Currently Watching</option>
-                    <option value="Finished">Finished</option>
-                    <option value="Planned">Planned</option>
-                    {% elif request.path == "/anime/finished" or request.path == "/manga/finished" %}
-                    <option value="All">All</option>
-                    <option value="Currently Watching">Currently Watching</option>
-                    <option value="Finished"selected>Finished</option>
-                    <option value="Planned">Planned</option>
-                    {% elif request.path == "/anime/planned" or request.path == "/manga/planned" %}
-                    <option value="All">All</option>
-                    <option value="Currently Watching">Currently Watching</option>
-                    <option value="Finished">Finished</option>
-                    <option value="Planned" selected>Planned</option>
-                    {% else %}
-                    <option value="All" selected>All</option>
-                    <option value="Currently Watching">Currently Watching</option>
-                    <option value="Finished">Finished</option>
-                    <option value="Planned">Planned</option>
-                    {% endif %}
+                <select class="form-select selectedList" name="list" id="selectedList">
+                    <script> var selectedVal = '{{list}}' </script>
+                    <option id="all" value="All">All</option>
+                    <option id="currentlyWatching" value="Currently Watching">Currently Watching</option>
+                    <option id="finished" value="Finished">Finished</option>
+                    <option id="planned" value="Planned">Planned</option>
                 </select>
                 <button class="btn btn-secondary" type="submit" name ="GO" value="GO">Go</button>
             </div>  

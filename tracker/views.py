@@ -329,7 +329,10 @@ def update():
             anime_item = Anime_Item.query.get(request.form.get('id'))
 
             anime_item.list = list
-            anime_item.rating = request.form.get('rating')
+
+            if list != "Planned":
+                anime_item.rating = request.form.get('rating')
+
             anime_item.notes = request.form.get('notes')
 
             db.session.commit()
@@ -337,13 +340,17 @@ def update():
 
             if list == "Finished":
                 return redirect(url_for('views.anime_finished'))
-            else:
+            elif list == "Currently Watching":
                 return redirect(url_for('views.anime_currently_watching'))
+            else:
+                return redirect(url_for('views.anime_planned'))
         else:
             manga_item = Manga_Item.query.get(request.form.get('id'))
 
             manga_item.list = list
-            manga_item.rating = request.form.get('rating')
+
+            if list != "Planned":
+                manga_item.rating = request.form.get('rating')
             manga_item.notes = request.form.get('notes')
 
             db.session.commit()
@@ -351,8 +358,10 @@ def update():
 
             if list == "Finished":
                 return redirect(url_for('views.manga_finished'))
-            else:
+            elif list =="Currently Watching":
                 return redirect(url_for('views.manga_currently_watching'))
+            else:
+                return redirect(url_for('views.manga_planned'))
 
 @views.route('/delete', methods=['GET', 'POST'])
 def delete():
