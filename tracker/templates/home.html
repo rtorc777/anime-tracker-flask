@@ -40,7 +40,9 @@
                 <br>
                 <h4>Average Anime Rating: <span style="color:#ffdd80">{{ avg_anime_rating }}</span></h4>
                 <br>
-                {% if not visit %}
+                {% if visit %}
+                <a class="btn btn-secondary" href="{{ url_for('views.user_anime', user_id=user) }}">{{ user }}'s Anime List</a>
+                {% else %}
                 <a class="btn btn-secondary" href="{{ url_for('views.anime') }}">Anime List</a>
                 {% endif %}
 
@@ -55,7 +57,9 @@
                 <br>
                 <h4>Average Manga Rating: <span style="color:#ffdd80">{{ avg_manga_rating }}</span></h4>
                 <br>
-                {% if not visit %}
+                {% if visit %}
+                <a class="btn btn-secondary" href="{{ url_for('views.user_manga', user_id=user) }}">{{ user }}'s Manga List</a>
+                {% else %}
                 <a class="btn btn-secondary" href="{{ url_for('views.manga') }}">Manga List</a>
                 {% endif %}
             </div>

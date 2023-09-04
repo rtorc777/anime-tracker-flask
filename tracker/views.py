@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from tracker.jikan import search_jikan
 from tracker.models import Anime_Item, Manga_Item, User
 from tracker import db
+from sqlalchemy.sql import func
 
 views = Blueprint('views', __name__)
 
@@ -155,6 +156,10 @@ def anime_planned():
     anime_data = Anime_Item.query.filter_by(owner=current_user.id, list=list).all()
 
     if request.method == 'POST':
+        if request.form.get('RANDOM') == "RANDOM":
+            random_anime=Anime_Item.query.filter_by(owner=current_user.id, list=list).order_by(func.random()).first()
+            flash(random_anime.name, category='info')
+            return redirect(url_for('views.anime_planned'))
         if request.form.get('list') == "Finished":
             return redirect(url_for('views.anime_finished'))
         elif request.form.get('list') == "Currently Watching":
@@ -228,6 +233,11 @@ def manga_planned():
     manga_data = Manga_Item.query.filter_by(owner=current_user.id, list=list).all()
 
     if request.method == 'POST':
+        if request.form.get('RANDOM') == "RANDOM":
+            random_manga=Manga_Item.query.filter_by(owner=current_user.id, list=list).order_by(func.random()).first()
+            flash(random_manga.name, category='info')
+            return redirect(url_for('views.manga_planned'))
+        
         if request.form.get('list') == "Finished":
             return redirect(url_for('views.manga_finished'))
         elif request.form.get('list') == "Currently Watching":
@@ -482,3 +492,21 @@ def user_home(user_id):
         return redirect(url_for('views.home'))
 
     return render_template("home.html", stats=stats, anime_ratings=anime_ratings, manga_ratings=manga_ratings, avg_manga_rating=avg_manga_rating, avg_anime_rating=avg_anime_rating, user=user_id, visit=True)
+
+@views.route('/anime/<user_id>', methods=['GET', 'POST'])
+def user_anime(user_id):
+    type = "Anime"
+    exists = User.query.filter_by(username=user_id).first()
+    anime_data = Anime_Item.query.filter_by(owner=exists.id).all()
+    if request.method == 'POST':
+        return redirect(url_for('views.user_anime', user_id=user_id))
+    return render_template("anime.html", anime_data=anime_data, type=type, list="All", visit=True, user=user_id)
+
+@views.route('/manga/<user_id>', methods=['GET', 'POST'])
+def user_manga(user_id):
+    type = "Manga"
+    exists = User.query.filter_by(username=user_id).first()
+    manga_data = Manga_Item.query.filter_by(owner=exists.id).all()
+    if request.method == 'POST':
+        return redirect(url_for('views.user_manga', user_id=user_id))
+    return render_template("manga.html", manga_data=manga_data, type=type, list="All", visit=True, user=user_id)

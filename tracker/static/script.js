@@ -4,16 +4,16 @@ $(document).ready(function () {
 
     $('selectedList').ready(function() {  
         if (selectedVal == "All") {
-            $('.selectedList option[id=All]').attr('selected','selected');
+            $('.selectedList option[id=all]').attr('selected','selected');
         }
         else if (selectedVal == "Currently Watching") {
             $('.selectedList option[id=currentlyWatching]').attr('selected','selected');
         }
         else if (selectedVal == "Finished") {
-            $('.selectedList option[id=Finished]').attr('selected','selected');
+            $('.selectedList option[id=finished]').attr('selected','selected');
         }
         else{
-            $('.selectedList option[id=Planned]').attr('selected','selected');
+            $('.selectedList option[id=planned]').attr('selected','selected');
         }
     });
 

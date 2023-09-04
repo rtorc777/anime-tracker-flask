@@ -1,12 +1,20 @@
 {% extends "anime.html" %} 
-{% from 'macros.html' import data_table %}
 
 {% block title %}
     Manga List
 {% endblock %}
 
 {% block label %}
-    Manga List ({{ list }}) 
+    {% if visit %}
+        {{user}}'s Manga List
+    {% else %}
+        Manga List ({{ list }})
+    {% endif %}  
+    {% if request.path == "/manga/planned" %}
+    <form method="POST" class="form-list">
+        <button class="btn btn-success btn-m" type="submit" name ="RANDOM" value="RANDOM">Get Random Manga from Planned List</button>
+    </form>
+    {% endif %}
 {% endblock %}
 
 {% block table %}
