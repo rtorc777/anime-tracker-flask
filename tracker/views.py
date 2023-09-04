@@ -497,16 +497,24 @@ def user_home(user_id):
 def user_anime(user_id):
     type = "Anime"
     exists = User.query.filter_by(username=user_id).first()
-    anime_data = Anime_Item.query.filter_by(owner=exists.id).all()
-    if request.method == 'POST':
-        return redirect(url_for('views.user_anime', user_id=user_id))
+    if exists:
+        anime_data = Anime_Item.query.filter_by(owner=exists.id).all()
+        if request.method == 'POST':
+            return redirect(url_for('views.user_anime', user_id=user_id))
+    else:
+        flash('Username does not exist!', category='danger')
+        return redirect(url_for('views.home'))
     return render_template("anime.html", anime_data=anime_data, type=type, list="All", visit=True, user=user_id)
 
 @views.route('/manga/<user_id>', methods=['GET', 'POST'])
 def user_manga(user_id):
     type = "Manga"
     exists = User.query.filter_by(username=user_id).first()
-    manga_data = Manga_Item.query.filter_by(owner=exists.id).all()
-    if request.method == 'POST':
-        return redirect(url_for('views.user_manga', user_id=user_id))
+    if exists:
+        manga_data = Manga_Item.query.filter_by(owner=exists.id).all()
+        if request.method == 'POST':
+            return redirect(url_for('views.user_manga', user_id=user_id))
+    else:
+        flash('Username does not exist!', category='danger')
+        return redirect(url_for('views.home'))
     return render_template("manga.html", manga_data=manga_data, type=type, list="All", visit=True, user=user_id)

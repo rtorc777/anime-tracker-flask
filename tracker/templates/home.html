@@ -5,28 +5,29 @@
 {% endblock %}
 
 {% block content %}
-<br>
+  <br>
   <div class="container text-center">
-    <form method="POST" class="form-list">
-      <div class="row">
-          <div class="input-group ml-auto mr-auto">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search for user" name="SEARCH">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </div>  
-      </div>
-    </form>
+  <form method="POST" class="form-list">
+    <div class="row d-flex justify-content-center">
+      <h6>Search for a user to view their profile:</h6>
+        <div class="input-group w-25">
+          <input class="form-control form-control-sm" type="search" placeholder="Search for user" name="SEARCH">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </div>  
+    </div>
+  </form>
   </div>
     {% if current_user.is_authenticated or visit %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <br>
     {% if visit %}
-    <h1 class="text-center">{{ user }}'s Profile</h1>
+    <h1 class="text-center" style="font-weight: bold; text-decoration: underline;">{{ user }}'s Profile</h1>
     {% else %}
-    <h1 class="text-center">Welcome {{ current_user.username }}!</h1>
+    <h1 class="text-center" style="font-weight: bold; text-decoration: underline;">Welcome {{ current_user.username }}!</h1>
     {% endif %}
     <div class="container text-center">
         {% if not visit %}
-        <img class="center" src="https://64.media.tumblr.com/a3b6597c5e85e9016e77e8e282ac95bd/9e785dff5a7f2d43-52/s1280x1920/abce408a35467b467d2be40de1cbdf274c3ef53f.png" style="width: 15%; height: 15%;text-align: center;">
+        <img class="center" src="https://64.media.tumblr.com/a3b6597c5e85e9016e77e8e282ac95bd/9e785dff5a7f2d43-52/s1280x1920/abce408a35467b467d2be40de1cbdf274c3ef53f.png" style="width: 10%; text-align: center;">
         {% endif %}
         <div class="row">
             <div class="col-1"></div>
@@ -66,10 +67,10 @@
         </div>
     </div>
     {% else %}
-    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center" style="color:#DDE6ED">
+    <div class="position-relative text-center" style="color:#DDE6ED"> <br>
         <h1 class="display-4 font-weight-normal">Anime/Manga Tracker</h1>
         <p class="lead font-weight-normal">Create and track a list of Anime and Manga using the button below</p>
-        <img class="container" src="https://ih1.redbubble.net/image.1837732425.0155/st,small,507x507-pad,600x600,f8f8f8.jpg" style="width: 30%; height: 30%;">
+        <img class="container" src="https://ih1.redbubble.net/image.1837732425.0155/st,small,507x507-pad,600x600,f8f8f8.jpg" style="width: 25%; height: 25%;">
         <br> <br> <br>
         <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Get Started</a>
     </div>
