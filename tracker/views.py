@@ -266,6 +266,7 @@ def add_item():
             type = request.form.get('type').capitalize()
             name = request.form.get('name')
             image = request.form.get('image')
+            link = request.form.get('link')
             list = "Planned"
             rating = -1
             notes = ""
@@ -276,7 +277,7 @@ def add_item():
                 if in_list:
                     flash(f'{name} is already in Anime list', category='danger')
                 else:
-                    new_item = Anime_Item(image=image, name=name, rating=rating, notes=notes, list=list, owner=current_user.id)
+                    new_item = Anime_Item(image=image, name=name, rating=rating, notes=notes, list=list, link=link, owner=current_user.id)
                     db.session.add(new_item)
                     db.session.commit()
                     flash(f'Successfully added {name} to ({type}) {list} list', category='success')
@@ -289,7 +290,7 @@ def add_item():
                 if in_list:
                     flash(f'{name} is already in Manga list', category='danger')
                 else:
-                    new_item = Manga_Item(image=image, name=name, rating=rating, notes=notes, list=list, owner=current_user.id)
+                    new_item = Manga_Item(image=image, name=name, rating=rating, notes=notes, list=list, link=link, owner=current_user.id)
                     db.session.add(new_item)
                     db.session.commit()
                     flash(f'Successfully added {name} to ({type}) {list} list', category='success')
@@ -302,6 +303,7 @@ def add_item():
             name = request.form.get('name')
             image = request.form.get('image')
             list = request.form.get('list')
+            link = request.form.get('link')
             rating = request.form.get('rating')
             notes = request.form.get('notes')
 
@@ -311,7 +313,7 @@ def add_item():
                 if in_list:
                     flash(f'{name} is already in Anime list', category='danger')
                 else:
-                    new_item = Anime_Item(image=image, name=name, rating=rating, notes=notes, list=list, owner=current_user.id  )
+                    new_item = Anime_Item(image=image, name=name, rating=rating, notes=notes, list=list, link=link, owner=current_user.id  )
                     db.session.add(new_item)
                     db.session.commit()
                     flash(f'Successfully added {name} to ({type}) {list} list', category='success')
@@ -324,7 +326,7 @@ def add_item():
                 if in_list:
                     flash(f'{name} is already in Manga list', category='danger')
                 else:
-                    new_item = Manga_Item(image=image, name=name, rating=rating, notes=notes, list=list, owner=current_user.id  )
+                    new_item = Manga_Item(image=image, name=name, rating=rating, notes=notes, list=list, link=link, owner=current_user.id  )
                     db.session.add(new_item)
                     db.session.commit()
                     flash(f'Successfully added {name} to ({type}) {list} list', category='success')
@@ -338,7 +340,6 @@ def update():
     if request.method == 'POST':
         type = request.form.get('type')
         list = request.form.get('list')
-
         if type == "Anime":
             anime_item = Anime_Item.query.get(request.form.get('id'))
 
@@ -348,6 +349,7 @@ def update():
                 anime_item.rating = request.form.get('rating')
 
             anime_item.notes = request.form.get('notes')
+            anime_item.link = request.form.get('link')
 
             db.session.commit()
             flash(f'Successfully updated {anime_item.name}', category='success')
@@ -365,7 +367,9 @@ def update():
 
             if list != "Planned":
                 manga_item.rating = request.form.get('rating')
+                
             manga_item.notes = request.form.get('notes')
+            manga_item.link = request.form.get('link')
 
             db.session.commit()
             flash(f'Successfully updated {manga_item.name}', category='success')

@@ -27,6 +27,7 @@ class Item(db.Model):
     rating = db.Column(db.Integer(), nullable=False)
     notes = db.Column(db.String(length=1024))
     list = db.Column(db.String(), nullable = False)
+    link = db.Column(db.String())
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
 class Anime_Item(Item):

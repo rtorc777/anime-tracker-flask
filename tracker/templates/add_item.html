@@ -59,13 +59,17 @@
                             <div class="modal fade" tabindex="-1" id="{{ results[result] }}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <div class="modal-header">
+                                        <div class="modal-header" style="background-color: #ADD8E6;">
                                             <h1 class="modal-title fs-5" id="addItemModalLabel">{{ result }}</h1>
                                         </div>
                                         <div class="modal-body">
+                                            <h5>Link</h5>
+                                            <div class="input-group mb-5">
+                                                <input class="form-control" name="link" placeholder="Optional">
+                                            </div>
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <img src="{{ results[result] }}" class="card-img">
+                                                    <img src="{{ results[result] }}" class="card-img mb-3">
                                                 </div>
 
                                                 <div class="col-6">
@@ -74,23 +78,19 @@
                                                     <input type="hidden" name="image" value="{{ results[result] }}">
 
                                                     <h5>Choose List</h5>
-                                                    <select class="form-select" name="list" required>
+                                                    <select class="form-select mb-3" name="list" required>
                                                         <option value="" selected disabled hidden>Choose List</option>
                                                         <option value="Currently Watching">Currently Watching</option>
                                                         <option value="Finished">Finished</option>
                                                     </select>
-
-                                                    <br>
-
                                                     <h5>Rating</h5>
                                                     <div class="input-group mb-3">
                                                         <input min="1" max="10" step="1" type="number" class="form-control" required name="rating">
                                                         <span class="input-group-text">/10</span>
                                                     </div>
-
                                                     <h5>Additional Notes</h5>
-                                                    <div class="input-group">
-                                                        <textarea class="form-control" name="notes" maxlength="512"></textarea>
+                                                    <div class="input-group mb-3">
+                                                        <textarea class="form-control" name="notes" maxlength="512" placeholder="Optional"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
