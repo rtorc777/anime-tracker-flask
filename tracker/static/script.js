@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    $('#animanga_list').DataTable();
+    $('#animanga_list').DataTable({
+        paging: false
+    });
 
 
     $('selectedList').ready(function() {  
