@@ -80,7 +80,11 @@
                                                     <h5>Choose List</h5>
                                                     <select class="form-select mb-3" name="list" required>
                                                         <option value="" selected disabled hidden>Choose List</option>
+                                                        {% if type == "anime" %}
                                                         <option value="Currently Watching">Currently Watching</option>
+                                                        {% else %}
+                                                        <option value="Currently Reading">Currently Reading</option>
+                                                        {% endif %}
                                                         <option value="Finished">Finished</option>
                                                     </select>
                                                     <h5>Rating</h5>

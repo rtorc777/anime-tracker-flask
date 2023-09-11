@@ -11,6 +11,9 @@ $(document).ready(function () {
         else if (selectedVal == "Currently Watching") {
             $('.selectedList option[id=currentlyWatching]').attr('selected','selected');
         }
+        else if (selectedVal == "Currently Reading") {
+            $('.selectedList option[id=currentlyReading]').attr('selected','selected');
+        }
         else if (selectedVal == "Finished") {
             $('.selectedList option[id=finished]').attr('selected','selected');
         }

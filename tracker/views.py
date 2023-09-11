@@ -20,7 +20,7 @@ def home():
         "anime_watching_count" : 0,
         "manga_total_count" : 0,
         "manga_finished_count" : 0,
-        "manga_watching_count" : 0
+        "manga_reading_count" : 0
     }
     anime_ratings_dict = {1:0,
                      2:0,
@@ -69,8 +69,8 @@ def home():
 
             if manga.list == "Finished":
                 stats["manga_finished_count"] += 1
-            elif manga.list == "Currently Watching":
-                stats["manga_watching_count"] += 1
+            elif manga.list == "Currently Reading":
+                stats["manga_reading_count"] += 1
 
         anime_ratings = list(anime_ratings_dict.values())
         manga_ratings = list(manga_ratings_dict.values())
@@ -179,26 +179,26 @@ def manga():
     if request.method == 'POST':
         if request.form.get('list') == "Finished":
             return redirect(url_for('views.manga_finished'))
-        elif request.form.get('list') == "Currently Watching":
-            return redirect(url_for('views.manga_currently_watching'))
+        elif request.form.get('list') == "Currently Reading":
+            return redirect(url_for('views.manga_currently_reading'))
         elif request.form.get('list') == "Planned":
             return redirect(url_for('views.manga_planned'))
         else:
             return redirect(url_for('views.manga'))
     return render_template("manga.html", manga_data=manga_data, type=type, list="All")
 
-@views.route('/manga/currently_watching', methods=['GET', 'POST'])
+@views.route('/manga/currently_reading', methods=['GET', 'POST'])
 @login_required
-def manga_currently_watching():
+def manga_currently_reading():
     type = "Manga"
-    list = "Currently Watching"
+    list = "Currently Reading"
     manga_data = Manga_Item.query.filter_by(owner=current_user.id, list=list).all()
 
     if request.method == 'POST':
         if request.form.get('list') == "Finished":
             return redirect(url_for('views.manga_finished'))
-        elif request.form.get('list') == "Currently Watching":
-            return redirect(url_for('views.manga_currently_watching'))
+        elif request.form.get('list') == "Currently Reading":
+            return redirect(url_for('views.manga_currently_reading'))
         elif request.form.get('list') == "Planned":
             return redirect(url_for('views.manga_planned'))
         else:
@@ -216,8 +216,8 @@ def manga_finished():
     if request.method == 'POST':
         if request.form.get('list') == "Finished":
             return redirect(url_for('views.manga_finished'))
-        elif request.form.get('list') == "Currently Watching":
-            return redirect(url_for('views.manga_currently_watching'))
+        elif request.form.get('list') == "Currently Reading":
+            return redirect(url_for('views.manga_currently_reading'))
         elif request.form.get('list') == "Planned":
             return redirect(url_for('views.manga_planned'))
         else:
@@ -240,8 +240,8 @@ def manga_planned():
         
         if request.form.get('list') == "Finished":
             return redirect(url_for('views.manga_finished'))
-        elif request.form.get('list') == "Currently Watching":
-            return redirect(url_for('views.manga_currently_watching'))
+        elif request.form.get('list') == "Currently Reading":
+            return redirect(url_for('views.manga_currently_reading'))
         elif request.form.get('list') == "Planned":
             return redirect(url_for('views.manga_planned'))
         else:
@@ -376,8 +376,8 @@ def update():
 
             if list == "Finished":
                 return redirect(url_for('views.manga_finished'))
-            elif list =="Currently Watching":
-                return redirect(url_for('views.manga_currently_watching'))
+            elif list =="Currently Reading":
+                return redirect(url_for('views.manga_currently_reading'))
             else:
                 return redirect(url_for('views.manga_planned'))
 
@@ -417,7 +417,7 @@ def user_home(user_id):
         "anime_watching_count" : 0,
         "manga_total_count" : 0,
         "manga_finished_count" : 0,
-        "manga_watching_count" : 0
+        "manga_reading_count" : 0
     }
     anime_ratings_dict = {1:0,
                      2:0,
@@ -468,8 +468,8 @@ def user_home(user_id):
 
             if manga.list == "Finished":
                 stats["manga_finished_count"] += 1
-            elif manga.list == "Currently Watching":
-                stats["manga_watching_count"] += 1
+            elif manga.list == "Currently Reading":
+                stats["manga_reading_count"] += 1
 
         anime_ratings = list(anime_ratings_dict.values())
         manga_ratings = list(manga_ratings_dict.values())

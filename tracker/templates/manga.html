@@ -17,6 +17,10 @@
     {% endif %}
 {% endblock %}
 
+{% block watching %}
+<option id="currentlyReading" value="Currently Reading">Currently Reading</option>
+{% endblock %}
+
 {% block table %}
-    {{ data_table(manga_data, type) }}
+    {{ data_table(manga_data, type, label="Currently Reading") }}
 {% endblock %} 

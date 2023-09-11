@@ -40,7 +40,9 @@
                 <select class="form-select selectedList" name="list" id="selectedList">
                     <script> var selectedVal = '{{list}}' </script>
                     <option id="all" value="All">All</option>
+                    {% block watching %}
                     <option id="currentlyWatching" value="Currently Watching">Currently Watching</option>
+                    {% endblock %}
                     <option id="finished" value="Finished">Finished</option>
                     <option id="planned" value="Planned">Planned</option>
                 </select>
@@ -52,7 +54,7 @@
 
     <br>
     {% block table %}
-        {{ data_table(anime_data, type) }}
+        {{ data_table(anime_data, type, label="Currently Watching") }}
     {% endblock %} 
     <br>
 </div>
@@ -62,10 +64,7 @@
 {% macro heading_row() %}
     <thead>
         <tr>
-            {% if request.path == "/anime" or request.path == "/manga" or visit %}
             <th scope="col" style="width: 5%;">List</th>
-            {% endif %}
-
             <th scope="col" style="width: 5%;">Image</th>
             <th scope="col" style="width: 30%;">Name</th>
             <th scope="col" style="width: 5%;">Rating</th>
@@ -79,18 +78,16 @@
     </thead>
 {% endmacro %}
 
-{% macro data_rows(data, type) %}
+{% macro data_rows(data, type, label) %}
     <tbody>
         {% for row in data %}
         <tr>
-            {% if request.path == "/anime" or request.path == "/manga" or visit%}
-                {% if row.list == "Finished" %}
-                    <td style="text-align: center;"> <p style="color:#1b944b; font-weight: bold;">Finished</p></td>
-                {% elif row.list == "Currently Watching" %}
-                    <td style="text-align: center;"> <p style="color:#ad9f05; font-weight: bold;">Currently Watching</p></td>
-                {% else %}
-                    <td style="text-align: center;"> <p style="color:#ad1c05; font-weight: bold;">Planned</p></td>
-                {% endif %}
+            {% if row.list == "Finished" %}
+                <td style="text-align: center;"> <p style="color:#1b944b; font-weight: bold;">Finished</p></td>
+            {% elif row.list == "Currently Watching" or row.list == "Currently Reading" %}
+                <td style="text-align: center;"> <p style="color:#ad9f05; font-weight: bold;">{{label}}</p></td>
+            {% else %}
+                <td style="text-align: center;"> <p style="color:#ad1c05; font-weight: bold;">Planned</p></td>
             {% endif %}
             <td style="text-align: center;"><img src="{{ row.image }}" width="112px" height="175px"></td>
             <td style="text-decoration: underline;">{{ row.name }}</td>
@@ -136,14 +133,14 @@
                                         <h5>Choose List</h5>
                                         <select class="form-select listType mb-3" name="list" id="{{ type }}{{ row.id }}">
                                             {% if row.list == "Finished" %}
-                                            <option value="Currently Watching">Currently Watching</option>
+                                            <option value="Currently Watching">{{label}}</option>
                                             <option selected value="Finished">Finished</option>
                                             {% elif row.list == "Currently Watching" %}
-                                            <option selected value="Currently Watching">Currently Watching</option>
+                                            <option selected value="Currently Watching">{{label}}</option>
                                             <option value="Finished">Finished</option>
                                             {% else %}
                                             <option selected value="Planned">Planned</option>
-                                            <option value="Currently Watching">Currently Watching</option>
+                                            <option value="Currently Watching">{{label}}</option>
                                             <option value="Finished">Finished</option>
                                             {%endif %}
                                         </select>
@@ -203,9 +200,9 @@
     </tbody>
 {% endmacro %}
 
-{% macro data_table(data, type) %}
+{% macro data_table(data, type, label) %}
     <table id="animanga_list" class="table table-hover table-secondary table-bordered align-middle" style="border:1px; table-layout: auto;">
         {{ heading_row() }}
-        {{ data_rows(data, type) }}
+        {{ data_rows(data, type, label) }}
     </table>
 {% endmacro %}
