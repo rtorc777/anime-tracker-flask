@@ -132,17 +132,31 @@
                                     <div class="col-6">
                                         <h5>Choose List</h5>
                                         <select class="form-select listType mb-3" name="list" id="{{ type }}{{ row.id }}">
-                                            {% if row.list == "Finished" %}
-                                            <option value="Currently Watching">{{label}}</option>
-                                            <option selected value="Finished">Finished</option>
-                                            {% elif row.list == "Currently Watching" %}
-                                            <option selected value="Currently Watching">{{label}}</option>
-                                            <option value="Finished">Finished</option>
+                                            {% if label == "Currently Watching" %}
+                                                {% if row.list == "Finished" %}
+                                                <option value="Currently Watching">{{label}}</option>
+                                                <option selected value="Finished">Finished</option>
+                                                {% elif row.list == "Currently Watching" %}
+                                                <option selected value="Currently Watching">{{label}}</option>
+                                                <option value="Finished">Finished</option>
+                                                {% else %}
+                                                <option selected value="Planned">Planned</option>
+                                                <option value="Currently Watching">{{label}}</option>
+                                                <option value="Finished">Finished</option>
+                                                {% endif %}
                                             {% else %}
-                                            <option selected value="Planned">Planned</option>
-                                            <option value="Currently Watching">{{label}}</option>
-                                            <option value="Finished">Finished</option>
-                                            {%endif %}
+                                                {% if row.list == "Finished" %}
+                                                <option value="Currently Reading">{{label}}</option>
+                                                <option selected value="Finished">Finished</option>
+                                                {% elif row.list == "Currently Reading" %}
+                                                <option selected value="Currently Reading">{{label}}</option>
+                                                <option value="Finished">Finished</option>
+                                                {% else %}
+                                                <option selected value="Planned">Planned</option>
+                                                <option value="Currently Reading">{{label}}</option>
+                                                <option value="Finished">Finished</option>  
+                                                {% endif %}
+                                            {% endif %}
                                         </select>
                                         <h5>Rating</h5>
                                         <div class="input-group mb-3">
